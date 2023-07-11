@@ -15,6 +15,8 @@ const register = (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     phone: req.body.phone,
+    gender: req.body.gender,
+    birthday: req.body.birthday,
     password: bcrypt.hashSync(req.body.password, salt),
   });
   user

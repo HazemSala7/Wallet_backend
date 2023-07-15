@@ -28,6 +28,18 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  vouchars: {
+    type: Number,
+    required: true,
+  },
+  points: {
+    type: Number,
+    required: true,
+  },
+  credits: {
+    type: Number,
+    required: true,
+  },
 });
 
 const User = mongoose.model("user", UserSchema);

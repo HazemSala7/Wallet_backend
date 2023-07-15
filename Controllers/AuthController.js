@@ -17,6 +17,9 @@ const register = (req, res, next) => {
     phone: req.body.phone,
     gender: req.body.gender,
     birthday: req.body.birthday,
+    vouchars: req.body.vouchars,
+    points: req.body.points,
+    credits: req.body.credits,
     password: bcrypt.hashSync(req.body.password, salt),
   });
   user

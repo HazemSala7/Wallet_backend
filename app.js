@@ -4,6 +4,21 @@ var bodyParser = require("body-parser");
 const multer = require("multer");
 const app = express();
 const upload = multer();
+const cors = require("cors");
+
+const domainsFromEnv = "http://localhost:3000";
+const whitelist = domainsFromEnv.split(",").map((item) => item.trim());
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -55,6 +70,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("connected");
+app.listen(4000, () => {
+  console.log("connected at port " + 4000);
 });

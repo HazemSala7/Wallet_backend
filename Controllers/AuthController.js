@@ -72,7 +72,112 @@ const login = (req, res, next) => {
   );
 };
 
+const getAllUsers = (req, res, next) => {
+  User.find()
+    .then((users) => {
+      res.json({
+        users: users,
+      });
+    })
+    .catch((error) => {
+      res.json({
+        error: error.message,
+      });
+    });
+};
+
+const addFriendById = (req, res, next) => {
+  const userId = req.params.userId; // Assuming the user ID is provided as a route parameter
+  const friendId = req.body.friendId; // Assuming the friend ID is provided in the request body
+
+  User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        return res.json({
+          message: "User not found",
+        });
+      }
+
+      User.findById(friendId)
+        .then((friend) => {
+          if (!friend) {
+            return res.json({
+              message: "Friend not found",
+            });
+          }
+
+          // Check if the friend is already in the user's friends array
+          const isAlreadyFriend = user.friends.includes(friendId);
+          if (isAlreadyFriend) {
+            return res.json({
+              message: "Friend is already added",
+            });
+          }
+
+          user.friends.push(friendId);
+          user
+            .save()
+            .then(() => {
+              res.json({
+                message: "Friend added successfully",
+              });
+            })
+            .catch((error) => {
+              res.json({
+                error: error.message,
+              });
+            });
+        })
+        .catch((error) => {
+          res.json({
+            error: error.message,
+          });
+        });
+    })
+    .catch((error) => {
+      res.json({
+        error: error.message,
+      });
+    });
+};
+
+const deleteUserById = (req, res, next) => {
+  const userId = req.params.userId; // Assuming the user ID is provided as a route parameter
+
+  User.findByIdAndDelete(userId)
+    .then(() => {
+      res.json({
+        message: "User deleted successfully",
+      });
+    })
+    .catch((error) => {
+      res.json({
+        error: error.message,
+      });
+    });
+};
+
+const getUsersData = (req, res, next) => {
+  const userIds = req.body.userIds; // Assuming the array of user IDs is provided in the request body as "userIds"
+
+  User.find({ _id: { $in: userIds } })
+    .then((users) => {
+      res.json({
+        users: users,
+      });
+    })
+    .catch((error) => {
+      res.json({
+        error: error.message,
+      });
+    });
+};
+
 module.exports = {
   register,
   login,
+  getAllUsers,
+  addFriendById,
+  deleteUserById,
+  getUsersData,
 };

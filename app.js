@@ -1,9 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 var bodyParser = require("body-parser");
+const multer = require("multer");
 const app = express();
+const upload = multer();
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 mongoose
   .connect(
@@ -29,12 +31,14 @@ app.all("/test", (req, res) => {
 
 const ProductRoute = require("./Routes/Product.route");
 const TaskRoute = require("./Routes/Task.route");
+const OperationRoute = require("./Routes/Operation.route");
 const ActivityRoute = require("./Routes/Activity.route");
 const UserRoute = require("./Routes/User.route");
-app.use("/products", ProductRoute);
-app.use("/tasks", TaskRoute);
-app.use("/activities", ActivityRoute);
-app.use("/api/auth", UserRoute);
+app.use("/products", upload.none(), ProductRoute);
+app.use("/tasks", upload.none(), TaskRoute);
+app.use("/operation", upload.none(), OperationRoute);
+app.use("/activities", upload.none(), ActivityRoute);
+app.use("/api/auth", upload.none(), UserRoute);
 
 // app.get("/products", (req, res, next) => {
 //     res.

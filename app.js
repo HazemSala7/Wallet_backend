@@ -6,7 +6,7 @@ const app = express();
 const upload = multer();
 const cors = require("cors");
 
-const domainsFromEnv = "http://localhost:3000";
+const domainsFromEnv = "https://together-wallet.onrender.com";
 const whitelist = domainsFromEnv.split(",").map((item) => item.trim());
 const corsOptions = {
   origin: function (origin, callback) {
@@ -46,11 +46,13 @@ app.all("/test", (req, res) => {
 
 const ProductRoute = require("./Routes/Product.route");
 const TaskRoute = require("./Routes/Task.route");
+const RewardRoute = require("./Routes/Reward.route");
 const OperationRoute = require("./Routes/Operation.route");
 const ActivityRoute = require("./Routes/Activity.route");
 const UserRoute = require("./Routes/User.route");
 app.use("/products", upload.none(), ProductRoute);
 app.use("/tasks", upload.none(), TaskRoute);
+app.use("/rewards", upload.none(), RewardRoute);
 app.use("/operation", upload.none(), OperationRoute);
 app.use("/activities", upload.none(), ActivityRoute);
 app.use("/api/auth", upload.none(), UserRoute);
@@ -70,6 +72,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(4000, () => {
-  console.log("connected at port " + 4000);
+app.listen(3000, () => {
+  console.log("connected at port " + 3000);
 });

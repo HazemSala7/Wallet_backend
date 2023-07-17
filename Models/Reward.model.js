@@ -21,12 +21,8 @@ const RewardSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  contact_id: {
-    type: String,
-    required: true,
-  },
   rewardId: {
-    type: Number,
+    type: String,
     required: true,
   },
 });

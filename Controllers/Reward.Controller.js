@@ -18,82 +18,30 @@ module.exports = {
 
   createNewReward: async (req, res, next) => {
     try {
-      const type = req.body.type;
-      console.log("req.body.user_id");
-      console.log(req.body.user_id);
-      // return "req.body.user_id";
-      const user_sender = await User.findById(req.body.user_id);
+      const { type, name, value, location, user_id, rewardId } = req.body;
 
-      // const product = await Product.findOne({ _id: id });
-      if (!user_sender) {
-        throw createError(404, "User does not exist.");
-      }
-      const product = new Reward(req.body);
-      const result = await product.save();
-      if (type === "vouchars") {
-        user_sender.vouchars -= req.body.value;
-        await user_sender.save();
-        const contact = await User.findById(req.body.contact_id);
-        contact.vouchars += parseInt(req.body.value);
-        await contact.save();
-        res.json({
-          vouchar: "Voucher sent successfully.",
-          message: type,
-        });
-      } else if (type === "points") {
-        user_sender.points -= req.body.value;
-        await user_sender.save();
-        const contact = await User.findById(req.body.contact_id);
-        contact.points += parseInt(req.body.value);
-        await contact.save();
-        res.json({
-          vouchar: "Points sent successfully.",
-          message: type,
-        });
-      } else if (type === "credits") {
-        user_sender.credits -= req.body.value;
-        await user_sender.save();
-        const contact = await User.findById(req.body.contact_id);
-        contact.credits += parseInt(req.body.value);
-        await contact.save();
-        res.json({
-          vouchar: "Credits sent successfully.",
-          message: type,
-        });
-      } else {
-        res.json({
-          message: "Please Enter your type (vouchars , credits , points)",
-        });
-      }
-      // res.send({
-      //   status: "true",
-      // });
+      const newReward = new Reward({
+        type,
+        name,
+        value,
+        location,
+        user_id,
+        rewardId,
+      });
+
+      const result = await newReward.save();
+      res.status(201).json({
+        message: "Reward created successfully.",
+        reward: result,
+      });
     } catch (error) {
       console.log(error.message);
-      if (error.name === "ValidationError") {
-        next(createError(422, error.message));
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, "Invalid Reward id"));
         return;
       }
       next(error);
     }
-
-    /*Or:
-  If you want to use the Promise based approach*/
-    /*
-  const product = new Product({
-    name: req.body.name,
-    price: req.body.price
-  });
-  product
-    .save()
-    .then(result => {
-      console.log(result);
-      res.send(result);
-    })
-    .catch(err => {
-      console.log(err.message);
-    }); 
-    */
   },
 
   findRewardById: async (req, res, next) => {
@@ -109,6 +57,45 @@ module.exports = {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
         next(createError(400, "Invalid Reward id"));
+        return;
+      }
+      next(error);
+    }
+  },
+
+  findRewardByIds: async (req, res, next) => {
+    const rewardIds = req.body;
+
+    try {
+      const rewards = await Reward.find({ _id: { $in: rewardIds } });
+      if (rewards.length === 0) {
+        throw createError(404, "No rewards found with the provided IDs.");
+      }
+
+      res.send(rewards);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, "Invalid Reward ID"));
+        return;
+      }
+      next(error);
+    }
+  },
+
+  findRewardByUserId: async (req, res, next) => {
+    const id = req.params.id;
+    try {
+      const product = await Reward.find({ user_id: id });
+      // const product = await Product.findOne({ _id: id });
+      if (!product) {
+        throw createError(404, "Reward does not exist.");
+      }
+      res.send(product);
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, "Invalid User id"));
         return;
       }
       next(error);

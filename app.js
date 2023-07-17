@@ -6,7 +6,8 @@ const app = express();
 const upload = multer();
 const cors = require("cors");
 
-const domainsFromEnv = "https://together-wallet.onrender.com";
+const domainsFromEnv =
+  "http://localhost:3000, https://together-wallet.onrender.com";
 const whitelist = domainsFromEnv.split(",").map((item) => item.trim());
 const corsOptions = {
   origin: function (origin, callback) {
@@ -72,6 +73,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("connected at port " + 3000);
+app.listen(80, "0.0.0.0", () => {
+  console.log("connected at port " + 80);
 });

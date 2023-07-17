@@ -10,6 +10,12 @@ router.get("/", RewardController.getAllRewards);
 router.post("/", RewardController.createNewReward);
 
 //Get a product by id
+router.get("/user/:id", RewardController.findRewardByUserId);
+
+//Get a product by id
+router.post("/rewards", RewardController.findRewardByIds);
+
+//Get a product by id
 router.get("/:id", RewardController.findRewardById);
 
 //Update a product by id

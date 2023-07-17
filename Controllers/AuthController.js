@@ -86,6 +86,20 @@ const getAllUsers = (req, res, next) => {
     });
 };
 
+const getUserById = (req, res, next) => {
+  User.findById(req.params.id)
+    .then((users) => {
+      res.json({
+        users: users,
+      });
+    })
+    .catch((error) => {
+      res.json({
+        error: error.message,
+      });
+    });
+};
+
 const addFriendById = (req, res, next) => {
   const userId = req.params.userId; // Assuming the user ID is provided as a route parameter
   const friendId = req.body.friendId; // Assuming the friend ID is provided in the request body
@@ -180,4 +194,5 @@ module.exports = {
   addFriendById,
   deleteUserById,
   getUsersData,
+  getUserById,
 };

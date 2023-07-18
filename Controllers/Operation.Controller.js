@@ -1,45 +1,52 @@
 const createError = require("http-errors");
 const mongoose = require("mongoose");
 const User = require("../Models/User");
+const Reward = require("../Models/Reward.model");
 
 module.exports = {
   sendVouchars: async (req, res, next) => {
+    const { rewardId, rewardType, rewardValue, userId, contactId } = req.body;
+    const parsedRewardValue = parseInt(rewardValue);
     try {
-      const type = req.body.type;
-      const user_sender = await User.findById(req.body.user_id);
-      // const product = await Product.findOne({ _id: id });
+      const user_sender = await User.findById(userId);
+      const reward = await Reward.findById(rewardId);
       if (!user_sender) {
         throw createError(404, "User does not exist.");
       }
-      if (type === "vouchars") {
-        user_sender.vouchars -= req.body.value;
+      if (!reward) {
+        throw createError(404, "Reward not found.");
+      }
+      reward.user_id = contactId;
+      await reward.save();
+      if (rewardType === "vouchars") {
+        user_sender.vouchars -= parsedRewardValue;
+        const contact = await User.findById(contactId);
+        contact.vouchars += parseInt(parsedRewardValue);
         await user_sender.save();
-        const contact = await User.findById(req.body.contact_id);
-        contact.vouchars += parseInt(req.body.value);
         await contact.save();
         res.json({
           vouchar: "Voucher sent successfully.",
-          message: type,
+          message: rewardType,
         });
-      } else if (type === "points") {
-        user_sender.points -= req.body.value;
+      } else if (rewardType === "points") {
+        user_sender.points -= parsedRewardValue;
+        const contact = await User.findById(contactId);
+        contact.points += parseInt(parsedRewardValue);
         await user_sender.save();
-        const contact = await User.findById(req.body.contact_id);
-        contact.points += parseInt(req.body.value);
         await contact.save();
         res.json({
           vouchar: "Points sent successfully.",
-          message: type,
+          message: rewardType,
         });
-      } else if (type === "credits") {
-        user_sender.credits -= req.body.value;
+      } else if (rewardType === "credits") {
+        user_sender.credits -= parsedRewardValue;
+        const contact = await User.findById(contactId);
+        contact.credits += parseInt(parsedRewardValue);
         await user_sender.save();
-        const contact = await User.findById(req.body.contact_id);
-        contact.credits += parseInt(req.body.value);
         await contact.save();
         res.json({
           vouchar: "Credits sent successfully.",
-          message: type,
+          message: rewardType,
         });
       } else {
         res.json({

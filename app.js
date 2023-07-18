@@ -4,6 +4,22 @@ var bodyParser = require("body-parser");
 const multer = require("multer");
 const app = express();
 const upload = multer();
+const cors = require("cors");
+
+const domainsFromEnv =
+  "http://localhost:3000, https://together-wallet.onrender.com";
+const whitelist = domainsFromEnv.split(",").map((item) => item.trim());
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -31,11 +47,13 @@ app.all("/test", (req, res) => {
 
 const ProductRoute = require("./Routes/Product.route");
 const TaskRoute = require("./Routes/Task.route");
+const RewardRoute = require("./Routes/Reward.route");
 const OperationRoute = require("./Routes/Operation.route");
 const ActivityRoute = require("./Routes/Activity.route");
 const UserRoute = require("./Routes/User.route");
 app.use("/products", upload.none(), ProductRoute);
 app.use("/tasks", upload.none(), TaskRoute);
+app.use("/rewards", upload.none(), RewardRoute);
 app.use("/operation", upload.none(), OperationRoute);
 app.use("/activities", upload.none(), ActivityRoute);
 app.use("/api/auth", upload.none(), UserRoute);
@@ -55,6 +73,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("connected");
+app.listen(3000, "0.0.0.0", () => {
+  console.log("connected at port " + 3000);
 });

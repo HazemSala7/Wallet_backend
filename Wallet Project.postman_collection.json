@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "10d39581-42f5-4c93-a9b4-50bcb2d9fa4d",
+		"name": "Wallet Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Activities",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Create Task",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contact_name\":\"test\",\r\n    \"image\":\"test.png\",\r\n    \"description\":\"test description\",\r\n    \"lesson_type\":\"lesson1\",\r\n    \"category_type\":\"category1\",\r\n    \"task_type\":\"task1\",\r\n    \"lattiude\":\"13.2156\",\r\n    \"longitude\":\"33.5484646\",\r\n    \"date\":\"date1\",\r\n    \"time\":\"13:10:00\",\r\n    \"reward\":\"reward1\",\r\n    \"quantity\":\"1\",\r\n    \"file\":\"file.png\",\r\n    \"user_id\":\"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/add_task",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"add_task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Tasks",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contact_name\":\"test\",\r\n    \"image\":\"test.png\",\r\n    \"description\":\"test description\",\r\n    \"lesson_type\":\"lesson1\",\r\n    \"category_type\":\"category1\",\r\n    \"task_type\":\"task1\",\r\n    \"lattiude\":\"13.2156\",\r\n    \"longitude\":\"33.5484646\",\r\n    \"date\":\"date1\",\r\n    \"time\":\"13:10:00\",\r\n    \"reward\":\"reward1\",\r\n    \"quantity\":\"1\",\r\n    \"file\":\"file.png\",\r\n    \"user_id\":\"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/add_task",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"add_task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Specefic Task",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contact_name\":\"test\",\r\n    \"image\":\"test.png\",\r\n    \"description\":\"test description\",\r\n    \"lesson_type\":\"lesson1\",\r\n    \"category_type\":\"category1\",\r\n    \"task_type\":\"task1\",\r\n    \"lattiude\":\"13.2156\",\r\n    \"longitude\":\"33.5484646\",\r\n    \"date\":\"date1\",\r\n    \"time\":\"13:10:00\",\r\n    \"reward\":\"reward1\",\r\n    \"quantity\":\"1\",\r\n    \"file\":\"file.png\",\r\n    \"user_id\":\"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/add_task",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"add_task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Activity",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contact_name\":\"test\",\r\n    \"image\":\"test.png\",\r\n    \"description\":\"test description\",\r\n    \"lesson_type\":\"lesson1\",\r\n    \"category_type\":\"category1\",\r\n    \"task_type\":\"task1\",\r\n    \"lattiude\":\"13.2156\",\r\n    \"longitude\":\"33.5484646\",\r\n    \"date\":\"date1\",\r\n    \"time\":\"13:10:00\",\r\n    \"reward\":\"reward1\",\r\n    \"quantity\":\"1\",\r\n    \"file\":\"file.png\",\r\n    \"user_id\":\"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/add_task",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"add_task"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

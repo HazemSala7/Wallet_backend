@@ -49,7 +49,7 @@ const login = (req, res, next) => {
             });
           }
           if (result) {
-            let token = jwt.sign({ name: user.name }, "verySecretValue", {
+            let token = jwt.sign({ user }, "verySecretValue", {
               expiresIn: "1h",
             });
             res.json({
@@ -70,6 +70,36 @@ const login = (req, res, next) => {
       }
     }
   );
+};
+
+const getCurrentUser = (req, res, next) => {
+  // Extract the JWT token from the request headers or query params, depending on your application setup.
+  const token = req.headers.authorization || req.query.token;
+
+  if (!token) {
+    return res.status(401).json({
+      message: "Access token not provided.",
+    });
+  }
+
+  // Verify the JWT token
+  jwt.verify(token, "verySecretValue", (err, decodedToken) => {
+    if (err) {
+      return res.status(401).json({
+        message: "Invalid access token.",
+      });
+    }
+
+    // Here, decodedToken contains the data that was signed while generating the token
+    const user = decodedToken.user; // Assuming that the "name" was stored in the token during the login process
+
+    // You can fetch additional user data from the database if required.
+    // For this example, we are returning the user name obtained from the token.
+    res.json({
+      message: "Current user retrieved successfully.",
+      user: user,
+    });
+  });
 };
 
 const getAllUsers = (req, res, next) => {
@@ -195,4 +225,5 @@ module.exports = {
   deleteUserById,
   getUsersData,
   getUserById,
+  getCurrentUser,
 };

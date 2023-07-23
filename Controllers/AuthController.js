@@ -39,37 +39,37 @@ const register = (req, res, next) => {
 const login = (req, res, next) => {
   var username = req.body.username;
   var password = req.body.password;
-  User.findOne({ $or: [{ email: username }, { phone: username }] }).then(
-    (user) => {
-      if (user) {
-        bcrypt.compare(password, user.password, function (err, result) {
-          if (err) {
-            res.json({
-              error: err.message,
-            });
-          }
-          if (result) {
-            let token = jwt.sign({ user }, "verySecretValue", {
-              expiresIn: "1h",
-            });
-            res.json({
-              message: "Login Successful!",
-              access_token: token,
-              user: user,
-            });
-          } else {
-            res.json({
-              message: "Password does not matched!",
-            });
-          }
-        });
-      } else {
-        res.json({
-          message: "No user found!",
-        });
-      }
+  User.findOne({
+    $or: [{ email: username }, { name: username }],
+  }).then((user) => {
+    if (user) {
+      bcrypt.compare(password, user.password, function (err, result) {
+        if (err) {
+          res.json({
+            error: err.message,
+          });
+        }
+        if (result) {
+          let token = jwt.sign({ user }, "verySecretValue", {
+            expiresIn: "1h",
+          });
+          res.json({
+            message: "Login Successful!",
+            access_token: token,
+            user: user,
+          });
+        } else {
+          res.json({
+            message: "Password does not matched!",
+          });
+        }
+      });
+    } else {
+      res.json({
+        message: "No user found!",
+      });
     }
-  );
+  });
 };
 
 const getCurrentUser = (req, res, next) => {

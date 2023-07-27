@@ -21,10 +21,6 @@ const RewardSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  rewardId: {
-    type: String,
-    required: true,
-  },
 });
 
 const Reward = mongoose.model("Reward", RewardSchema);

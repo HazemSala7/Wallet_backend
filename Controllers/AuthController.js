@@ -17,7 +17,7 @@ const register = (req, res, next) => {
     phone: req.body.phone,
     gender: req.body.gender,
     birthday: req.body.birthday,
-    vouchars: req.body.vouchars,
+    vouchers: req.body.vouchers,
     points: req.body.points,
     credits: req.body.credits,
     password: bcrypt.hashSync(req.body.password, salt),
@@ -37,10 +37,10 @@ const register = (req, res, next) => {
 };
 
 const login = (req, res, next) => {
-  var username = req.body.username;
+  var email = req.body.email;
   var password = req.body.password;
   User.findOne({
-    $or: [{ email: username }, { name: username }],
+    $or: [{ email: email }],
   }).then((user) => {
     if (user) {
       bcrypt.compare(password, user.password, function (err, result) {

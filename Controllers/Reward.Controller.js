@@ -10,7 +10,9 @@ module.exports = {
       const results = await Reward.find({}, { __v: 0 });
       // const results = await Product.find({}, { name: 1, price: 1, _id: 0 });
       // const results = await Product.find({ price: 699 }, {});
-      res.send(results);
+      res.send({
+        rewards: results,
+      });
     } catch (error) {
       console.log(error.message);
     }
@@ -18,7 +20,7 @@ module.exports = {
 
   createNewReward: async (req, res, next) => {
     try {
-      const { type, name, value, location, user_id, rewardId } = req.body;
+      const { type, name, value, location, user_id } = req.body;
 
       const newReward = new Reward({
         type,
@@ -26,7 +28,6 @@ module.exports = {
         value,
         location,
         user_id,
-        rewardId,
       });
 
       const result = await newReward.save();

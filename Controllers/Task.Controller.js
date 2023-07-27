@@ -9,7 +9,9 @@ module.exports = {
       const results = await Task.find({}, { __v: 0 });
       // const results = await Product.find({}, { name: 1, price: 1, _id: 0 });
       // const results = await Product.find({ price: 699 }, {});
-      res.send(results);
+      res.send({
+        tasks: results,
+      });
     } catch (error) {
       console.log(error.message);
     }
@@ -20,7 +22,7 @@ module.exports = {
       const product = new Task(req.body);
       const result = await product.save();
       res.send({
-        status: "true",
+        message: "Task Added Successfully!",
       });
     } catch (error) {
       console.log(error.message);

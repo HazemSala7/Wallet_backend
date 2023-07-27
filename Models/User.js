@@ -28,7 +28,7 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  vouchars: {
+  vouchers: {
     type: Number,
     required: true,
   },

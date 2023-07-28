@@ -7,7 +7,7 @@ const upload = multer();
 const cors = require("cors");
 
 const domainsFromEnv =
-  "http://localhost:3000, https://together-wallet.onrender.com";
+  "http://localhost:3000, https://www.student-ecosystem.com";
 const whitelist = domainsFromEnv.split(",").map((item) => item.trim());
 const corsOptions = {
   origin: function (origin, callback) {

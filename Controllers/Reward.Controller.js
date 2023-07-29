@@ -10,7 +10,7 @@ module.exports = {
       const results = await Reward.find({}, { __v: 0 });
       // const results = await Product.find({}, { name: 1, price: 1, _id: 0 });
       // const results = await Product.find({ price: 699 }, {});
-      res.send({
+      res.status(200).json({
         rewards: results,
       });
     } catch (error) {
@@ -31,14 +31,16 @@ module.exports = {
       });
 
       const result = await newReward.save();
-      res.status(201).json({
+      res.status(200).json({
         message: "Reward created successfully.",
         reward: result,
       });
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
-        next(createError(400, "Invalid Reward id"));
+        res.status(404).json({
+          message: "Invalid Reward id",
+        });
         return;
       }
       next(error);

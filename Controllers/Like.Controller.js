@@ -13,6 +13,9 @@ module.exports = {
       res.send({
         likes: results,
       });
+      res.status(200).json({
+        likes: results,
+      });
     } catch (error) {
       console.log(error.message);
     }
@@ -25,13 +28,17 @@ module.exports = {
       const post = await Post.findById(req.body.post_id);
       // console.log(post);
       if (!post) {
-        console.log("Post not found.");
+        res.status(404).json({
+          message: "Post not found",
+        });
         return;
       }
       const user = await User.findById(req.body.user_id);
       // console.log(post);
       if (!user) {
-        console.log("User not found.");
+        res.status(404).json({
+          message: "User not found",
+        });
         return;
       }
       // Create a new Post document and set the post_id to the User's _id
@@ -40,13 +47,15 @@ module.exports = {
         user_id: user._id,
       });
       await like.save();
-      res.send({
+      res.status(200).json({
         message: "Like Added Successfully!",
       });
     } catch (error) {
       console.log(error.message);
       if (error.name === "ValidationError") {
-        next(createError(422, error.message));
+        res.status(404).json({
+          message: error.message,
+        });
         return;
       }
       next(error);
@@ -79,7 +88,9 @@ module.exports = {
       if (!product) {
         throw createError(404, "Like does not exist.");
       }
-      res.send(product);
+      res.status(200).json({
+        like_details: product,
+      });
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
@@ -100,7 +111,9 @@ module.exports = {
       if (!result) {
         throw createError(404, "Like does not exist");
       }
-      res.send(result);
+      res.status(200).json({
+        like_details: result,
+      });
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
@@ -119,11 +132,16 @@ module.exports = {
       if (!result) {
         throw createError(404, "Like does not exist.");
       }
-      res.send(result);
+      res.status(200).json({
+        message: "Like deleted successfuly!",
+        ike_details: result,
+      });
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
-        next(createError(400, "Invalid Like id"));
+        res.status(404).json({
+          message: "Invalid Like id",
+        });
         return;
       }
       next(error);

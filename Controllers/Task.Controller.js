@@ -7,9 +7,7 @@ module.exports = {
   getAllTasks: async (req, res, next) => {
     try {
       const results = await Task.find({}, { __v: 0 });
-      // const results = await Product.find({}, { name: 1, price: 1, _id: 0 });
-      // const results = await Product.find({ price: 699 }, {});
-      res.send({
+      res.status(200).json({
         tasks: results,
       });
     } catch (error) {
@@ -27,7 +25,9 @@ module.exports = {
     } catch (error) {
       console.log(error.message);
       if (error.name === "ValidationError") {
-        next(createError(422, error.message));
+        res.status(404).json({
+          message: error.message,
+        });
         return;
       }
       next(error);

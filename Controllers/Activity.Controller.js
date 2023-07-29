@@ -7,9 +7,9 @@ module.exports = {
   getAllActivities: async (req, res, next) => {
     try {
       const results = await Activity.find({}, { __v: 0 });
-      // const results = await Product.find({}, { name: 1, price: 1, _id: 0 });
-      // const results = await Product.find({ price: 699 }, {});
-      res.send(results);
+      res.status(200).json({
+        activities: results,
+      });
     } catch (error) {
       console.log(error.message);
     }
@@ -19,13 +19,15 @@ module.exports = {
     try {
       const product = new Activity(req.body);
       const result = await product.save();
-      res.send({
+      res.status(200).json({
         message: "Activity Added Successfully!",
       });
     } catch (error) {
       console.log(error.message);
       if (error.name === "ValidationError") {
-        next(createError(422, error.message));
+        res.status(404).json({
+          message: error.message,
+        });
         return;
       }
       next(error);
@@ -58,11 +60,15 @@ module.exports = {
       if (!product) {
         throw createError(404, "Activity does not exist.");
       }
-      res.send(product);
+      res.status(200).json({
+        activity_details: product,
+      });
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
-        next(createError(400, "Invalid Activity id"));
+        res.status(404).json({
+          message: "Invalid Activity id",
+        });
         return;
       }
       next(error);
@@ -83,7 +89,10 @@ module.exports = {
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
-        return next(createError(400, "Invalid Activity Id"));
+        res.status(404).json({
+          message: "Invalid Activity id",
+        });
+        return;
       }
 
       next(error);
@@ -102,7 +111,9 @@ module.exports = {
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
-        next(createError(400, "Invalid Activity id"));
+        res.status(404).json({
+          message: "Invalid Activity id",
+        });
         return;
       }
       next(error);

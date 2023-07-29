@@ -25,8 +25,8 @@ const register = (req, res, next) => {
   user
     .save()
     .then((user) => {
-      res.json({
-        message: "User Added Successfully!",
+      res.status(200).json({
+        message: "Request successful",
       });
     })
     .catch((error) => {
@@ -37,10 +37,10 @@ const register = (req, res, next) => {
 };
 
 const login = (req, res, next) => {
-  var email = req.body.email;
+  var username = req.body.username;
   var password = req.body.password;
   User.findOne({
-    $or: [{ email: email }],
+    $or: [{ email: username }, { name: username }],
   }).then((user) => {
     if (user) {
       bcrypt.compare(password, user.password, function (err, result) {
@@ -53,19 +53,19 @@ const login = (req, res, next) => {
           let token = jwt.sign({ user }, "verySecretValue", {
             expiresIn: "1h",
           });
-          res.json({
+          res.status(200).json({
             message: "Login Successful!",
             access_token: token,
             user: user,
           });
         } else {
-          res.json({
+          res.status(404).json({
             message: "Password does not matched!",
           });
         }
       });
     } else {
-      res.json({
+      res.status(404).json({
         message: "No user found!",
       });
     }
@@ -145,7 +145,7 @@ const addFriendById = (req, res, next) => {
       User.findById(friendId)
         .then((friend) => {
           if (!friend) {
-            return res.json({
+            return res.status(200).json({
               message: "Friend not found",
             });
           }
@@ -153,7 +153,7 @@ const addFriendById = (req, res, next) => {
           // Check if the friend is already in the user's friends array
           const isAlreadyFriend = user.friends.includes(friendId);
           if (isAlreadyFriend) {
-            return res.json({
+            return res.status(200).json({
               message: "Friend is already added",
             });
           }
@@ -162,7 +162,7 @@ const addFriendById = (req, res, next) => {
           user
             .save()
             .then(() => {
-              res.json({
+              res.status(200).json({
                 message: "Friend added successfully",
               });
             })
@@ -190,7 +190,7 @@ const deleteUserById = (req, res, next) => {
 
   User.findByIdAndDelete(userId)
     .then(() => {
-      res.json({
+      res.status(200).json({
         message: "User deleted successfully",
       });
     })

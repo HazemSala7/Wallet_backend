@@ -9,7 +9,7 @@ module.exports = {
     try {
       const results = await Comment.find({}, { __v: 0 });
       // console.log(results.lastIndexOf);
-      res.send({
+      res.status(200).json({
         comments: results,
       });
     } catch (error) {
@@ -40,13 +40,15 @@ module.exports = {
         body: req.body.body,
       });
       await comment.save();
-      res.json({
-        vouchar: "Comment Created successfully.",
+      res.status(200).json({
+        message: "Comment Created successfully!",
       });
     } catch (error) {
       console.log(error.message);
       if (error.name === "ValidationError") {
-        next(createError(422, error.message));
+        res.status(404).json({
+          message: error.message,
+        });
         return;
       }
       next(error);
@@ -79,11 +81,15 @@ module.exports = {
       if (!product) {
         throw createError(404, "Comment does not exist.");
       }
-      res.send(product);
+      res.status(200).json({
+        comment_details: product,
+      });
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
-        next(createError(400, "Invalid Comment id"));
+        res.status(404).json({
+          message: "Invalid Comment id",
+        });
         return;
       }
       next(error);
@@ -104,7 +110,10 @@ module.exports = {
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
-        return next(createError(400, "Invalid Comment Id"));
+        res.status(404).json({
+          message: "Invalid Comment Id",
+        });
+        return;
       }
 
       next(error);
@@ -123,7 +132,9 @@ module.exports = {
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
-        next(createError(400, "Invalid Comment id"));
+        res.status(404).json({
+          message: "Invalid Comment id",
+        });
         return;
       }
       next(error);

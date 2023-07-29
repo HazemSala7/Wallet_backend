@@ -18,10 +18,10 @@ module.exports = {
       }
       reward.user_id = contactId;
       await reward.save();
-      if (rewardType === "vouchars") {
-        user_sender.vouchars -= parsedRewardValue;
+      if (rewardType === "vouchers") {
+        user_sender.vouchers -= parsedRewardValue;
         const contact = await User.findById(contactId);
-        contact.vouchars += parseInt(parsedRewardValue);
+        contact.vouchers += parseInt(parsedRewardValue);
         await user_sender.save();
         await contact.save();
         res.json({
@@ -50,7 +50,7 @@ module.exports = {
         });
       } else {
         res.json({
-          message: "Please Enter your type (vouchars , credits , points)",
+          message: "Please Enter your type (vouchers , credits , points)",
         });
       }
     } catch (error) {

@@ -43,7 +43,7 @@ module.exports = {
           };
         })
       );
-      res.json({
+      res.status(200).json({
         Posts: updatedResults,
       });
     } catch (error) {
@@ -55,13 +55,14 @@ module.exports = {
     try {
       const product = new Post(req.body);
       const result = await product.save();
-      res.send({
+      res.status(200).json({
         message: "Post Added Successfully!",
       });
     } catch (error) {
-      console.log(error.message);
       if (error.name === "ValidationError") {
-        next(createError(422, error.message));
+        res.status(404).json({
+          message: error.message,
+        });
         return;
       }
       next(error);
@@ -94,7 +95,9 @@ module.exports = {
       if (!product) {
         throw createError(404, "Post does not exist.");
       }
-      res.send(product);
+      res.status(200).json({
+        post_details: product,
+      });
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {

@@ -50,11 +50,18 @@ module.exports = {
       console.log(error.message);
     }
   },
-
   createNewPost: async (req, res, next) => {
     try {
-      const product = new Post(req.body);
-      const result = await product.save();
+      let post = new Post({
+        description: req.body.description,
+        user_id: req.body.user_id,
+        category: req.body.category,
+        education: req.body.education,
+        needed: req.body.needed,
+        photo: req.body.photo,
+        code: req.body.code,
+      });
+      const result = await post.save();
       res.status(200).json({
         message: "Post Added Successfully!",
       });
@@ -67,24 +74,6 @@ module.exports = {
       }
       next(error);
     }
-
-    /*Or:
-  If you want to use the Promise based approach*/
-    /*
-  const product = new Product({
-    name: req.body.name,
-    price: req.body.price
-  });
-  product
-    .save()
-    .then(result => {
-      console.log(result);
-      res.send(result);
-    })
-    .catch(err => {
-      console.log(err.message);
-    }); 
-    */
   },
 
   findPostById: async (req, res, next) => {

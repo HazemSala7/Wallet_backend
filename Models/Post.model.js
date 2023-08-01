@@ -4,7 +4,27 @@ const Schema = mongoose.Schema;
 
 const PostSchema = new Schema(
   {
-    body: {
+    description: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    education: {
+      type: String,
+      required: true,
+    },
+    needed: {
+      type: String,
+      required: true,
+    },
+    photo: {
+      type: String,
+      required: true,
+    },
+    code: {
       type: String,
       required: true,
     },

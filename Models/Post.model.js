@@ -12,10 +12,6 @@ const PostSchema = new Schema(
       type: String,
       required: true,
     },
-    education: {
-      type: String,
-      required: true,
-    },
     needed: {
       type: String,
       required: true,

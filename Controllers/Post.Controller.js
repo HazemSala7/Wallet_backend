@@ -56,7 +56,6 @@ module.exports = {
         description: req.body.description,
         user_id: req.body.user_id,
         category: req.body.category,
-        education: req.body.education,
         needed: req.body.needed,
         photo: req.body.photo,
         code: req.body.code,
@@ -64,6 +63,7 @@ module.exports = {
       const result = await post.save();
       res.status(200).json({
         message: "Post Added Successfully!",
+        post: post,
       });
     } catch (error) {
       if (error.name === "ValidationError") {

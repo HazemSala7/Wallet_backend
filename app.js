@@ -77,6 +77,7 @@ const UserRoute = require("./Routes/User.route");
 const PostRoute = require("./Routes/Post.route");
 const CommentRoute = require("./Routes/Comment.route");
 const LikeRoute = require("./Routes/Like.route");
+const EventRoute = require("./Routes/Event.route");
 app.use("/products", upload.none(), ProductRoute);
 app.use("/tasks", upload.none(), TaskRoute);
 app.use("/rewards", upload.none(), RewardRoute);
@@ -86,6 +87,7 @@ app.use("/api/auth", upload.none(), UserRoute);
 app.use("/posts", upload.none(), PostRoute);
 app.use("/comments", upload.none(), CommentRoute);
 app.use("/likes", upload.none(), LikeRoute);
+app.use("/events", upload.none(), EventRoute);
 
 // app.get("/products", (req, res, next) => {
 //     res.

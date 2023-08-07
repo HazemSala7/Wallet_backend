@@ -1,33 +1,25 @@
 const express = require("express");
 const mongoose = require("mongoose");
 var bodyParser = require("body-parser");
-const { GridFsStorage } = require("multer-gridfs-storage");
 const multer = require("multer");
-// const dotenv = require("/.env");
+require("dotenv").config();
 const app = express();
+app.use("/Images", express.static("Images"));
 const upload = multer();
+
+const cors = require("cors");
 const url = process.env.MONGO_DB_URL;
 
-// Create a storage object with a given configuration
-// const storage = new GridFsStorage({
-//   url,
-//   file: (req, file) => {
-//     //If it is an image, save to photos bucket
-//     if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-//       return {
-//         bucketName: "photos",
-//         filename: `${Date.now()}_${file.originalname}`,
-//       };
-//     } else {
-//       //Otherwise save to default bucket
-//       return `${Date.now()}_${file.originalname}`;
-//     }
-//   },
-// });
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./Images");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
 
-// // Set multer storage engine to the newly created object
-// const upload1 = multer({ storage });
-const cors = require("cors");
+var upload1 = multer({ storage: storage });
 
 const domainsFromEnv =
   "http://localhost:3000, https://www.student-ecosystem.com";
@@ -67,6 +59,9 @@ app.all("/test", (req, res) => {
   console.log(req.query);
   res.send(req.query);
 });
+app.get("/", (req, res) => {
+  res.send("Welcome to the API!");
+});
 
 const ProductRoute = require("./Routes/Product.route");
 const TaskRoute = require("./Routes/Task.route");
@@ -79,13 +74,14 @@ const PostItemsRoute = require("./Routes/PostItems.route");
 const CommentRoute = require("./Routes/Comment.route");
 const LikeRoute = require("./Routes/Like.route");
 const EventRoute = require("./Routes/Event.route");
+const PostController = require("./Controllers/Post.Controller");
 app.use("/products", upload.none(), ProductRoute);
 app.use("/tasks", upload.none(), TaskRoute);
 app.use("/rewards", upload.none(), RewardRoute);
 app.use("/operation", upload.none(), OperationRoute);
 app.use("/activities", upload.none(), ActivityRoute);
 app.use("/api/auth", upload.none(), UserRoute);
-app.use("/posts", upload.none(), PostRoute);
+app.use("/posts", upload1.single("photo"), PostRoute);
 app.use("/posts_items", upload.none(), PostItemsRoute);
 app.use("/comments", upload.none(), CommentRoute);
 app.use("/likes", upload.none(), LikeRoute);

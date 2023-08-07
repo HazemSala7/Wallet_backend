@@ -8,9 +8,20 @@ module.exports = {
   getAllComment: async (req, res, next) => {
     try {
       const results = await Comment.find({}, { __v: 0 });
-      // console.log(results.lastIndexOf);
+      const updatedResults = await Promise.all(
+        results.map(async (post) => {
+          const Posts = await Post.find({ _id: post.post_id }, { __v: 0 });
+
+          const commentsWithUser = await Promise.all(Posts);
+
+          return {
+            ...post._doc,
+            posts: commentsWithUser[0],
+          };
+        })
+      );
       res.status(200).json({
-        comments: results,
+        comments: updatedResults,
       });
     } catch (error) {
       console.log(error.message);

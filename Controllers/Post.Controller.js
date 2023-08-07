@@ -33,6 +33,7 @@ module.exports = {
           });
           const likesWithUser = await Promise.all(commentPromises);
           const user = await User.find({ _id: post.user_id }, { __v: 0 });
+          const serverBaseUrl = "http://localhost:3000";
           return {
             ...post._doc,
             number_of_comments: Comments.length,
@@ -40,6 +41,7 @@ module.exports = {
             comments: commentsWithUser,
             likes: likesWithUser,
             user: user[0],
+            photo: post.photo ? `${serverBaseUrl}/${post.photo}` : null,
           };
         })
       );
@@ -50,15 +52,18 @@ module.exports = {
       console.log(error.message);
     }
   },
+
+  // createNewPostMiddleware: upload.single("photo"), // Use upload middleware for file upload
   createNewPost: async (req, res, next) => {
     try {
+      // return req.file.path;
       let post = new Post({
         description: req.body.description,
         user_id: req.body.user_id,
         category: req.body.category,
         needed: req.body.needed,
-        photo: req.body.photo,
         code: req.body.code,
+        photo: req.file.path,
       });
       const result = await post.save();
       res.status(200).json({

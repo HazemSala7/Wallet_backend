@@ -82,7 +82,7 @@ app.use("/operation", upload.none(), OperationRoute);
 app.use("/activities", upload.none(), ActivityRoute);
 app.use("/api/auth", upload.none(), UserRoute);
 app.use("/posts", upload1.single("photo"), PostRoute);
-app.use("/posts_items", upload.none(), PostItemsRoute);
+app.use("/posts_items", upload1.single("photo"), PostItemsRoute);
 app.use("/comments", upload.none(), CommentRoute);
 app.use("/likes", upload.none(), LikeRoute);
 app.use("/events", upload.none(), EventRoute);

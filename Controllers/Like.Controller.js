@@ -125,25 +125,33 @@ module.exports = {
   },
 
   deleteALike: async (req, res, next) => {
-    const id = req.params.id;
+    const postId = req.body.post_id;
+    const userId = req.body.user_id;
+
     try {
-      const result = await Like.findByIdAndDelete(id);
-      // console.log(result);
+      const result = await Like.findOneAndDelete({
+        post_id: postId,
+        user_id: userId,
+      });
+
       if (!result) {
         throw createError(404, "Like does not exist.");
       }
+
       res.status(200).json({
-        message: "Like deleted successfuly!",
-        ike_details: result,
+        message: "Like deleted successfully!",
+        like_details: result,
       });
     } catch (error) {
       console.log(error.message);
+
       if (error instanceof mongoose.CastError) {
         res.status(404).json({
           message: "Invalid Like id",
         });
         return;
       }
+
       next(error);
     }
   },

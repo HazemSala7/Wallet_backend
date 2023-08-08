@@ -33,6 +33,7 @@ module.exports = {
           });
           const likesWithUser = await Promise.all(commentPromises);
           const user = await User.find({ _id: post.user_id }, { __v: 0 });
+          const serverBaseUrl = "http://localhost:3000";
           return {
             ...post._doc,
             number_of_comments: Comments.length,
@@ -40,6 +41,7 @@ module.exports = {
             comments: commentsWithUser,
             likes: likesWithUser,
             user: user[0],
+            photo: post.photo ? `${serverBaseUrl}/${post.photo}` : null,
           };
         })
       );
@@ -52,7 +54,21 @@ module.exports = {
   },
   createNewPost: async (req, res, next) => {
     try {
-      let post = new Post(req.body);
+      let post = new Post({
+        item: req.body.item,
+        description: req.body.description,
+        education: req.body.education,
+        status: req.body.status,
+        working: req.body.working,
+        user_id: req.body.user_id,
+        category: req.body.category,
+        name: req.body.name,
+        telephone: req.body.telephone,
+        lattiude: req.body.lattiude,
+        longitude: req.body.longitude,
+        remark: req.body.remark,
+        photo: req.file.path,
+      });
       const result = await post.save();
       res.status(200).json({
         message: "Post Added Successfully!",

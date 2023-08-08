@@ -16,6 +16,6 @@ router.get("/:id", LikeController.findLikeById);
 router.patch("/:id", LikeController.updateALike);
 
 //Delete a product by id
-router.delete("/:id", LikeController.deleteALike);
+router.delete("/", LikeController.deleteALike);
 
 module.exports = router;

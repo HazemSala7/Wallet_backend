@@ -88,12 +88,23 @@ module.exports = {
     const id = req.params.id;
     try {
       const product = await Comment.findById(id);
-      // const product = await Product.findOne({ _id: id });
+      // const updatedResults = await Promise.all(
+      // return product;
+      const Posts = await Post.find({ _id: product.post_id }, { __v: 0 });
+
+      // const commentsWithUser = await Promise.all(Posts);
+
+      // return {
+      //   ...post._doc,
+      //   posts: commentsWithUser[0],
+      // };
+
       if (!product) {
         throw createError(404, "Comment does not exist.");
       }
       res.status(200).json({
         comment_details: product,
+        post_details: Posts[0],
       });
     } catch (error) {
       console.log(error.message);

@@ -13,11 +13,19 @@ const RewardSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  status: {
+    type: String,
+    required: true,
+  },
   location: {
     type: String,
     required: true,
   },
-  user_id: {
+  sender_id: {
+    type: String,
+    required: true,
+  },
+  receiver_id: {
     type: String,
     required: true,
   },

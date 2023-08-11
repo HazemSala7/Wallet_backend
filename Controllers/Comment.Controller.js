@@ -35,14 +35,16 @@ module.exports = {
       const post = await Post.findById(req.body.post_id);
       // console.log(post);
       if (!post) {
-        console.log("Post not found.");
-        return;
+        res.status(200).json({
+          message: "Post not found!",
+        });
       }
       const user = await User.findById(req.body.user_id);
       // console.log(post);
       if (!user) {
-        console.log("User not found.");
-        return;
+        res.status(200).json({
+          message: "User not found!",
+        });
       }
       // Create a new Post document and set the post_id to the User's _id
       let comment = new Comment({
@@ -53,6 +55,8 @@ module.exports = {
       await comment.save();
       res.status(200).json({
         message: "Comment Created successfully!",
+        post: post,
+        user: user,
       });
     } catch (error) {
       console.log(error.message);

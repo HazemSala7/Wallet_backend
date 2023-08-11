@@ -6,6 +6,12 @@ const RewardController = require("../Controllers/Reward.Controller");
 //Get a list of all products
 router.get("/", RewardController.getAllRewards);
 
+//Get User Roles
+router.get("/user_rewards", RewardController.getUsetRewards);
+
+//Update reward status
+router.post("/update_reward_status", RewardController.updateARewardStatus);
+
 //Create a new product
 router.post("/", RewardController.createNewReward);
 

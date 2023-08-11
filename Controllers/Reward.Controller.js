@@ -17,17 +17,29 @@ module.exports = {
       console.log(error.message);
     }
   },
+  getUsetRewards: async (req, res, next) => {
+    const user_id = req.body.user_id;
+    try {
+      const rewards = await Reward.find({ receiver_id: user_id }, { __v: 0 });
+      res.status(200).json({
+        rewards: rewards,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
 
   createNewReward: async (req, res, next) => {
     try {
-      const { type, name, value, location, user_id } = req.body;
-
+      console.log(req.body);
       const newReward = new Reward({
-        type,
-        name,
-        value,
-        location,
-        user_id,
+        type: req.body.type,
+        name: req.body.name,
+        value: req.body.value,
+        status: "pending",
+        location: req.body.location,
+        sender_id: req.body.sender_id,
+        receiver_id: req.body.receiver_id,
       });
 
       const result = await newReward.save();
@@ -120,6 +132,69 @@ module.exports = {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
         return next(createError(400, "Invalid Task Id"));
+      }
+
+      next(error);
+    }
+  },
+
+  updateARewardStatus: async (req, res, next) => {
+    try {
+      const reward = await Reward.findById(req.body.reward_id);
+      const user_sender = await User.findById(reward.sender_id);
+      const user_receiver = await User.findById(reward.receiver_id);
+
+      if (!user_sender) {
+        throw createError(404, "User does not exist.");
+      }
+      if (!user_receiver) {
+        throw createError(404, "User does not exist.");
+      }
+      if (!reward) {
+        throw createError(404, "Reward not found.");
+      }
+      if (reward.type === "vouchers") {
+        user_sender.vouchers -= reward.value;
+        user_receiver.vouchers += parseInt(reward.value);
+        reward.status = "accepted";
+        await reward.save();
+        await user_sender.save();
+        await user_receiver.save();
+        res.json({
+          vouchar: "Voucher sent successfully.",
+          message: reward.type,
+        });
+      } else if (reward.type === "points") {
+        user_sender.points -= reward.value;
+        user_receiver.points += parseInt(reward.value);
+        reward.status = "accepted";
+        await reward.save();
+        await user_sender.save();
+        await user_receiver.save();
+        res.json({
+          vouchar: "Points sent successfully.",
+          message: reward.type,
+        });
+      } else if (reward.type === "credits") {
+        user_sender.credits -= reward.value;
+        user_receiver.credits += parseInt(reward.value);
+        reward.status = "accepted";
+        await reward.save();
+        await user_sender.save();
+        await user_receiver.save();
+        res.json({
+          vouchar: "Credits sent successfully.",
+          message: reward.type,
+        });
+      } else {
+        res.json({
+          message: "Please Enter your type (vouchers , credits , points)",
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        return next(createError(400, "Invalid Reward Id"));
       }
 
       next(error);

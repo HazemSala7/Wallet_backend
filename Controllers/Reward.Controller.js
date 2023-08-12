@@ -159,6 +159,7 @@ module.exports = {
       await reward.save();
       res.status(200).json({
         message: "Reward sent successfully!",
+        reward: reward,
       });
     } catch (error) {
       console.log(error.message);
@@ -182,6 +183,7 @@ module.exports = {
       await reward.save();
       res.status(200).json({
         message: "Reward denied successfully!",
+        reward: reward,
       });
     } catch (error) {
       console.log(error.message);
@@ -216,7 +218,7 @@ module.exports = {
         await user_receiver.save();
         res.json({
           vouchar: "Voucher sent successfully.",
-          message: reward.type,
+          reward: reward,
         });
       } else if (reward.type === "points") {
         user_sender.points -= reward.value;
@@ -227,7 +229,7 @@ module.exports = {
         await user_receiver.save();
         res.json({
           vouchar: "Points sent successfully.",
-          message: reward.type,
+          reward: reward,
         });
       } else if (reward.type === "credits") {
         user_sender.credits -= reward.value;
@@ -238,7 +240,7 @@ module.exports = {
         await user_receiver.save();
         res.json({
           vouchar: "Credits sent successfully.",
-          message: reward.type,
+          reward: reward,
         });
       } else {
         res.json({

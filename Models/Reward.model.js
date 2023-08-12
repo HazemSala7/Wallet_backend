@@ -23,7 +23,6 @@ const RewardSchema = new mongoose.Schema({
   },
   sender_id: {
     type: String,
-    required: true,
   },
   receiver_id: {
     type: String,

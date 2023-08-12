@@ -9,8 +9,14 @@ router.get("/", RewardController.getAllRewards);
 //Get User Roles
 router.get("/user_rewards", RewardController.getUsetRewards);
 
-//Update reward status
-router.post("/update_reward_status", RewardController.updateARewardStatus);
+//Send reward status
+router.post("/send_reward", RewardController.sendReward);
+
+//Accept reward status
+router.post("/accept_reward", RewardController.acceptReward);
+
+//Deny reward status
+router.post("/deny_reward", RewardController.denyReward);
 
 //Create a new product
 router.post("/", RewardController.createNewReward);

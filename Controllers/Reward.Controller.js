@@ -192,7 +192,7 @@ module.exports = {
           throw createError(404, `Reward with ID ${rewardId} not found.`);
         }
         reward.status = "valid";
-        reward.sender_id = "null";
+        // reward.sender_id = "null";
         reward.receiver_id = reward.sender_id;
 
         await reward.save();

@@ -237,16 +237,16 @@ module.exports = {
         }
 
         if (reward.type === "vouchers") {
-          user_sender.vouchers -= reward.value;
-          user_receiver.vouchers += parseInt(reward.value);
+          user_sender.vouchers -= 1;
+          user_receiver.vouchers += 1;
           message1 = "Voucher sent successfully.";
         } else if (reward.type === "points") {
-          user_sender.points -= reward.value;
-          user_receiver.points += parseInt(reward.value);
+          user_sender.points -= 1;
+          user_receiver.points += 1;
           message1 = "Points sent successfully.";
         } else if (reward.type === "credits") {
-          user_sender.credits -= reward.value;
-          user_receiver.credits += parseInt(reward.value);
+          user_sender.credits -= 1;
+          user_receiver.credits += 1;
           message1 = "Credits sent successfully.";
         } else {
           throw createError(400, "Invalid reward type.");

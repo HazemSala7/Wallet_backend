@@ -85,7 +85,7 @@ app.use("/posts", upload1.single("photo"), PostRoute);
 app.use("/posts_items", upload1.single("photo"), PostItemsRoute);
 app.use("/comments", upload.none(), CommentRoute);
 app.use("/likes", upload.none(), LikeRoute);
-app.use("/events", upload.none(), EventRoute);
+app.use("/events", upload1.single("image"), EventRoute);
 
 // app.get("/products", (req, res, next) => {
 //     res.

@@ -7,8 +7,17 @@ module.exports = {
   getAllEvents: async (req, res, next) => {
     try {
       const results = await Event.find({}, { __v: 0 });
+      const updatedResults = await Promise.all(
+        results.map(async (post) => {
+          const serverBaseUrl = "http://localhost:3000";
+          return {
+            ...post._doc,
+            image: post.image ? `${serverBaseUrl}/${post.image}` : null,
+          };
+        })
+      );
       res.status(200).json({
-        events: results,
+        events: updatedResults,
       });
     } catch (error) {
       console.log(error.message);
@@ -17,8 +26,25 @@ module.exports = {
 
   createNewEvent: async (req, res, next) => {
     try {
-      const product = new Event(req.body);
-      const result = await product.save();
+      let post = new Event({
+        published_by: req.body.description,
+        needed: req.body.user_id,
+        quantity_needed: req.body.quantity_needed,
+        category_type: req.body.needed,
+        lattiude: req.body.lattiude,
+        longitude: req.body.longitude,
+        date_from: req.body.date_from,
+        date_to: req.body.date_to,
+        time_from: req.body.time_from,
+        time_to: req.body.time_to,
+        reward: req.body.reward,
+        quantity_reward: req.body.quantity_reward,
+        description: req.body.description,
+        file: req.body.file,
+        image: req.file.path,
+        user_id: req.body.user_id,
+      });
+      const result = await post.save();
       res.status(200).json({
         message: "Event Added Successfully!",
       });

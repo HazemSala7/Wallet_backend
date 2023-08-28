@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 var upload1 = multer({ storage: storage });
 
 const domainsFromEnv =
-  "http://localhost:3000, https://www.student-ecosystem.com";
+  "http://localhost:3000, https://www.student-ecosystem.com, https://together-ecosystem.com";
 const whitelist = domainsFromEnv.split(",").map((item) => item.trim());
 const corsOptions = {
   origin: function (origin, callback) {

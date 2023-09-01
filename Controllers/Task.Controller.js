@@ -17,12 +17,34 @@ module.exports = {
 
   createNewTask: async (req, res, next) => {
     try {
-      const product = new Task(req.body);
+      let product = new Task({
+        contact_name: req.body.contact_name,
+        lesson_type: req.body.lesson_type,
+        category_type: req.body.category_type,
+        task_type: req.body.task_type,
+        lattiude: req.body.lattiude,
+        longitude: req.body.longitude,
+        date: req.body.date,
+        time: req.body.time,
+        reward: req.body.reward,
+        quantity: req.body.quantity,
+        description: req.body.description,
+        file: req.body.file,
+        image: req.file.path,
+        user_id: req.body.user_id,
+        zone: req.body.zone,
+      });
       const result = await product.save();
+      const serverBaseUrl = "https://together-backend-0070.onrender.com";
       res.send({
         message: "Task Added Successfully!",
+        Task: {
+          ...product._doc,
+          image: product.image ? `${serverBaseUrl}/${product.image}` : null,
+        },
       });
     } catch (error) {
+      console.log("error");
       console.log(error.message);
       if (error.name === "ValidationError") {
         res.status(404).json({
@@ -65,6 +87,22 @@ module.exports = {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
         next(createError(400, "Invalid Task id"));
+        return;
+      }
+      next(error);
+    }
+  },
+  findTaskByZone: async (req, res, next) => {
+    try {
+      console.log("tes");
+      const rewards = await Task.find({ zone: req.params.zone }, { __v: 0 });
+      res.status(200).json({
+        tasks: rewards,
+      });
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, "Invalid Task Zone"));
         return;
       }
       next(error);

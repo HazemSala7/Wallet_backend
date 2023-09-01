@@ -76,7 +76,7 @@ const LikeRoute = require("./Routes/Like.route");
 const EventRoute = require("./Routes/Event.route");
 const PostController = require("./Controllers/Post.Controller");
 app.use("/products", upload.none(), ProductRoute);
-app.use("/tasks", upload.none(), TaskRoute);
+app.use("/tasks", upload1.single("image"), TaskRoute);
 app.use("/rewards", upload.none(), RewardRoute);
 app.use("/operation", upload.none(), OperationRoute);
 app.use("/activities", upload.none(), ActivityRoute);

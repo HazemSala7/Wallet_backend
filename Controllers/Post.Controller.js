@@ -33,7 +33,7 @@ module.exports = {
           });
           const likesWithUser = await Promise.all(commentPromises);
           const user = await User.find({ _id: post.user_id }, { __v: 0 });
-          const serverBaseUrl = "http://localhost:3000";
+          const serverBaseUrl = "https://together-backend-0070.onrender.com";
           return {
             ...post._doc,
             number_of_comments: Comments.length,

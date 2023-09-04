@@ -13,7 +13,7 @@ router.post("/", TaskController.createNewTask);
 router.get("/:id", TaskController.findTaskById);
 
 //Get a product by zone
-router.get("/by_zone/:id", TaskController.findTaskByZone);
+router.get("/zone/:zone", TaskController.findTaskByZone);
 
 //Update a product by id
 router.patch("/:id", TaskController.updateATask);

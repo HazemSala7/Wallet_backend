@@ -14,6 +14,18 @@ const TaskSchema = new Schema({
     type: String,
     required: true,
   },
+  published_by: {
+    type: String,
+    required: true,
+  },
+  needed: {
+    type: String,
+    required: true,
+  },
+  quantity_needed: {
+    type: String,
+    required: true,
+  },
   lesson_type: {
     type: String,
     required: true,
@@ -34,6 +46,14 @@ const TaskSchema = new Schema({
     type: String,
     required: true,
   },
+  start_date: {
+    type: String,
+    required: true,
+  },
+  end_date: {
+    type: String,
+    required: true,
+  },
   date: {
     type: String,
     required: true,
@@ -46,7 +66,7 @@ const TaskSchema = new Schema({
     type: String,
     required: true,
   },
-  quantity: {
+  quantity_reward: {
     type: String,
     required: true,
   },

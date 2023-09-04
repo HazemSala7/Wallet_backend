@@ -19,7 +19,7 @@ module.exports = {
     try {
       let product = new Task({
         contact_name: req.body.contact_name,
-        lesson_type: req.body.lesson_type,
+        indoor_location: req.body.indoor_location,
         published_by: req.body.published_by,
         needed: req.body.needed,
         quantity_needed: req.body.quantity_needed,
@@ -27,7 +27,6 @@ module.exports = {
         task_type: req.body.task_type,
         lattiude: req.body.lattiude,
         longitude: req.body.longitude,
-        date: req.body.date,
         time: req.body.time,
         reward: req.body.reward,
         quantity_reward: req.body.quantity_reward,

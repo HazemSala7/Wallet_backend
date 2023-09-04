@@ -26,7 +26,7 @@ const TaskSchema = new Schema({
     type: String,
     required: true,
   },
-  lesson_type: {
+  indoor_location: {
     type: String,
     required: true,
   },
@@ -51,10 +51,6 @@ const TaskSchema = new Schema({
     required: true,
   },
   end_date: {
-    type: String,
-    required: true,
-  },
-  date: {
     type: String,
     required: true,
   },

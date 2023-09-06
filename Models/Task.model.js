@@ -18,6 +18,10 @@ const TaskSchema = new Schema({
     type: String,
     required: true,
   },
+  outdoor_location: {
+    type: String,
+    required: false,
+  },
   needed: {
     type: String,
     required: true,

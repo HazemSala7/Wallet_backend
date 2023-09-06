@@ -35,10 +35,13 @@ module.exports = {
         start_date: req.body.start_date,
         end_date: req.body.end_date,
         file: req.body.file,
-        image: req.file.path,
+        // image: req.file.path,
         user_id: req.body.user_id,
         zone: req.body.zone,
       });
+      if (req.file) {
+        product.image = req.file.path;
+      }
       const result = await product.save();
       const serverBaseUrl = "https://together-backend-0070.onrender.com";
       res.send({
@@ -142,7 +145,10 @@ module.exports = {
       if (!result) {
         throw createError(404, "Task does not exist.");
       }
-      res.send(result);
+      res.status(200).json({
+        message: "Task deleted successfully!",
+        task_details: result,
+      });
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {

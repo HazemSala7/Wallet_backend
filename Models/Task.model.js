@@ -12,7 +12,7 @@ const TaskSchema = new Schema({
   },
   description: {
     type: String,
-    required: true,
+    required: false,
   },
   published_by: {
     type: String,
@@ -29,6 +29,10 @@ const TaskSchema = new Schema({
   indoor_location: {
     type: String,
     required: true,
+  },
+  outdoor_location: {
+    type: String,
+    required: false,
   },
   category_type: {
     type: String,
@@ -72,7 +76,7 @@ const TaskSchema = new Schema({
   },
   file: {
     type: String,
-    required: true,
+    required: false,
   },
   user_id: {
     type: String,

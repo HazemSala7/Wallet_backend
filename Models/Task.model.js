@@ -36,7 +36,7 @@ const TaskSchema = new Schema({
   },
   quantity_needed: {
     type: String,
-    required: true,
+    required: false,
   },
   indoor_location: {
     type: String,

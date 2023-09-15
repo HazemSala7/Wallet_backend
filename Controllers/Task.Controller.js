@@ -40,6 +40,7 @@ module.exports = {
         file: req.body.file,
         user_id: req.body.user_id,
         zone: req.body.zone,
+        time_added: new Date().getTime(),
       });
       if (req.file) {
         product.image = req.file.path;

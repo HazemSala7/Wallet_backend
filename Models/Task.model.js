@@ -98,6 +98,10 @@ const TaskSchema = new Schema({
     type: String,
     required: true,
   },
+  time_added: {
+    type: String,
+    required: true,
+  },
 });
 
 const Task = mongoose.model("task", TaskSchema);

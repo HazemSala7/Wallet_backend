@@ -10,6 +10,9 @@ router.get("/", PostController.getAllPosts);
 //Create a new product
 router.post("/", PostController.createNewPost);
 
+//Get a product by zone
+router.get("/zone/:zone", PostController.findPostByZone);
+
 //Get a product by id
 router.get("/:id", PostController.findPostById);
 

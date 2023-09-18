@@ -20,6 +20,7 @@ module.exports = {
       let product = new Task({
         contact_name: req.body.contact_name,
         indoor_location: req.body.indoor_location,
+        outdoor_location: req.body.outdoor_location,
         published_by: req.body.published_by,
         needed: req.body.needed,
         quantity_needed: req.body.quantity_needed,

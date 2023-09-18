@@ -63,6 +63,7 @@ module.exports = {
         category: req.body.category,
         needed: req.body.needed,
         code: req.body.code,
+        zone: req.body.zone,
         photo: req.file.path,
       });
       const result = await post.save();
@@ -75,6 +76,21 @@ module.exports = {
         res.status(404).json({
           message: error.message,
         });
+        return;
+      }
+      next(error);
+    }
+  },
+  findPostByZone: async (req, res, next) => {
+    try {
+      const rewards = await Post.find({ zone: req.params.zone }, { __v: 0 });
+      res.status(200).json({
+        posts: rewards,
+      });
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, "Invalid Post Zone"));
         return;
       }
       next(error);

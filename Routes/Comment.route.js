@@ -9,6 +9,12 @@ router.get("/", CommentController.getAllComment);
 //Create a new product
 router.post("/", CommentController.createNewComment);
 
+//Get a product by post_id
+router.get(
+  "/comments_by_postid/:post_id",
+  CommentController.findCommentsByPostid
+);
+
 //Get a product by id
 router.get("/:id", CommentController.findCommentById);
 

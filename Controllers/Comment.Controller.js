@@ -88,6 +88,25 @@ module.exports = {
     */
   },
 
+  findCommentsByPostid: async (req, res, next) => {
+    try {
+      const rewards = await Comment.find(
+        { post_id: req.params.post_id },
+        { __v: 0 }
+      );
+      res.status(200).json({
+        comments: rewards,
+      });
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, "Invalid PostID"));
+        return;
+      }
+      next(error);
+    }
+  },
+
   findCommentById: async (req, res, next) => {
     const id = req.params.id;
     try {

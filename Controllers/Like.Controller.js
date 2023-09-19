@@ -123,6 +123,24 @@ module.exports = {
       next(error);
     }
   },
+  findLikesByPostid: async (req, res, next) => {
+    try {
+      const rewards = await Like.find(
+        { post_id: req.params.post_id },
+        { __v: 0 }
+      );
+      res.status(200).json({
+        likes: rewards,
+      });
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, "Invalid PostID"));
+        return;
+      }
+      next(error);
+    }
+  },
 
   deleteALike: async (req, res, next) => {
     const postId = req.body.post_id;

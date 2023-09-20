@@ -55,6 +55,7 @@ module.exports = {
       await comment.save();
       res.status(200).json({
         message: "Comment Created successfully!",
+        comment: comment,
         post: post,
         user: user,
       });

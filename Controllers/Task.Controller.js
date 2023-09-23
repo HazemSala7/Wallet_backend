@@ -124,6 +124,8 @@ module.exports = {
       const id = req.params.id;
       const updates = {
         contact_name: req.body.contact_name,
+        contact_number: req.body.contact_number,
+        subtitle: req.body.subtitle,
         indoor_location: req.body.indoor_location,
         outdoor_location: req.body.outdoor_location,
         published_by: req.body.published_by,

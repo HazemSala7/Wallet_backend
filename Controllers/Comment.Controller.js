@@ -91,22 +91,31 @@ module.exports = {
 
   findCommentsByPostid: async (req, res, next) => {
     try {
-      const rewards = await Comment.find(
-        { post_id: req.params.post_id },
-        { __v: 0 }
-      );
-      res.status(200).json({
-        comments: rewards,
-      });
+        const comments = await Comment.find({ post_id: req.params.post_id }, { __v: 0 });
+        const userIds = comments.map(comment => comment.user_id);
+        const users = await User.find({ _id: { $in: userIds } });
+
+        const userLookup = {};
+        users.forEach(user => {
+            userLookup[user._id.toString()] = user;
+        });
+
+        const commentsWithUserNames = comments.map(comment => ({
+            comment: {...comment._doc, user_name: userLookup?.[comment.user_id]?.name},
+        }));
+
+        res.status(200).json({
+            comments: commentsWithUserNames,
+        });
     } catch (error) {
-      console.log(error.message);
-      if (error instanceof mongoose.CastError) {
-        next(createError(400, "Invalid PostID"));
-        return;
-      }
-      next(error);
+        console.log(error.message);
+        if (error instanceof mongoose.CastError) {
+            next(createError(400, "Invalid PostID"));
+            return;
+        }
+        next(error);
     }
-  },
+},
 
   findCommentById: async (req, res, next) => {
     const id = req.params.id;

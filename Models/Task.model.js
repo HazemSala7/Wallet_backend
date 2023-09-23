@@ -6,6 +6,14 @@ const TaskSchema = new Schema({
     type: String,
     required: true,
   },
+  contact_number: {
+    type: String,
+    required: true,
+  },
+  subtitle: {
+    type: String,
+    required: true,
+  },
   image: {
     type: String,
     required: false,
@@ -18,13 +26,17 @@ const TaskSchema = new Schema({
     type: String,
     required: true,
   },
+  outdoor_location: {
+    type: String,
+    required: false,
+  },
   needed: {
     type: String,
     required: true,
   },
   quantity_needed: {
     type: String,
-    required: true,
+    required: false,
   },
   indoor_location: {
     type: String,
@@ -83,6 +95,10 @@ const TaskSchema = new Schema({
     required: true,
   },
   zone: {
+    type: String,
+    required: true,
+  },
+  time_added: {
     type: String,
     required: true,
   },

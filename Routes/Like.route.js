@@ -9,6 +9,9 @@ router.get("/", LikeController.getAllLikes);
 //Create a new product
 router.post("/", LikeController.createNewLike);
 
+//Get a product by post_id
+router.get("/likes_by_postid/:post_id", LikeController.findLikesByPostid);
+
 //Get a product by id
 router.get("/:id", LikeController.findLikeById);
 

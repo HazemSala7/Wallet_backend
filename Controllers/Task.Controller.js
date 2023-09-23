@@ -122,14 +122,45 @@ module.exports = {
   updateATask: async (req, res, next) => {
     try {
       const id = req.params.id;
-      const updates = req.body;
+      const updates = {
+        contact_name: req.body.contact_name,
+        indoor_location: req.body.indoor_location,
+        outdoor_location: req.body.outdoor_location,
+        published_by: req.body.published_by,
+        needed: req.body.needed,
+        quantity_needed: req.body.quantity_needed,
+        category_type: req.body.category_type,
+        task_type: req.body.task_type,
+        lattiude: req.body.lattiude,
+        longitude: req.body.longitude,
+        start_time: req.body.start_time,
+        end_time: req.body.end_time,
+        reward: req.body.reward,
+        quantity_reward: req.body.quantity_reward,
+        description: req.body.description,
+        start_date: req.body.start_date,
+        end_date: req.body.end_date,
+        file: req.body.file,
+        user_id: req.body.user_id,
+        zone: req.body.zone,
+      };
+
+      if (req.file) {
+        // Check if a new image file is provided in the request
+        updates.image = req.file.path;
+      }
+
       const options = { new: true };
 
       const result = await Task.findByIdAndUpdate(id, updates, options);
       if (!result) {
         throw createError(404, "Task does not exist");
       }
-      res.send(result);
+
+      res.status(200).json({
+        message: "Task Edited Successfully!",
+        post: result,
+      });
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {

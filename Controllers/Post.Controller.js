@@ -121,14 +121,30 @@ module.exports = {
   updateAPost: async (req, res, next) => {
     try {
       const id = req.params.id;
-      const updates = req.body;
+      const updates = {
+        description: req.body.description,
+        user_id: req.body.user_id,
+        category: req.body.category,
+        needed: req.body.needed,
+        code: req.body.code,
+        zone: req.body.zone,
+      };
+
+      if (req.file) {
+        // Check if a new image file is provided in the request
+        updates.photo = req.file.path;
+      }
       const options = { new: true };
 
       const result = await Post.findByIdAndUpdate(id, updates, options);
       if (!result) {
         throw createError(404, "Post does not exist");
       }
-      res.send(result);
+
+      res.status(200).json({
+        message: "Post Edited Successfully!",
+        post: result,
+      });
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {

@@ -55,6 +55,7 @@ module.exports = {
       await comment.save();
       res.status(200).json({
         message: "Comment Created successfully!",
+        comment: comment,
         post: post,
         user: user,
       });
@@ -86,6 +87,25 @@ module.exports = {
       console.log(err.message);
     }); 
     */
+  },
+
+  findCommentsByPostid: async (req, res, next) => {
+    try {
+      const rewards = await Comment.find(
+        { post_id: req.params.post_id },
+        { __v: 0 }
+      );
+      res.status(200).json({
+        comments: rewards,
+      });
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, "Invalid PostID"));
+        return;
+      }
+      next(error);
+    }
   },
 
   findCommentById: async (req, res, next) => {

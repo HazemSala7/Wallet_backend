@@ -101,7 +101,9 @@ module.exports = {
         });
 
         const commentsWithUserNames = comments.map(comment => ({
-            ...comment._doc, user_name: userLookup?.[comment.user_id]?.name,
+            ...comment._doc,
+            user_name: userLookup?.[comment.user_id]?.name,
+            user_gender: userLookup?.[comment.user_id]?.gender
         }));
 
         res.status(200).json({

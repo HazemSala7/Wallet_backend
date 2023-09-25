@@ -185,7 +185,11 @@ module.exports = {
       if (!result) {
         throw createError(404, "Comment does not exist.");
       }
-      res.send(result);
+
+      res.status(200).json({
+        message: "Comment deleted successfully!",
+        comment: result,
+      });
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {

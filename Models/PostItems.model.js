@@ -16,15 +16,7 @@ const PostItemsSchema = new Schema(
       type: String,
       required: true,
     },
-    education: {
-      type: String,
-      required: true,
-    },
     status: {
-      type: String,
-      required: true,
-    },
-    working: {
       type: String,
       required: true,
     },
@@ -40,15 +32,19 @@ const PostItemsSchema = new Schema(
       type: String,
       required: true,
     },
-    lattiude: {
-      type: String,
-      required: true,
-    },
-    longitude: {
-      type: String,
-      required: true,
-    },
     remark: {
+      type: String,
+      required: true,
+    },
+    location: {
+      type: String,
+      required: true,
+    },
+    zone: {
+      type: String,
+      required: true,
+    },
+    code: {
       type: String,
       required: true,
     },

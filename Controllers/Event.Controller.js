@@ -1,6 +1,6 @@
 const createError = require("http-errors");
 const mongoose = require("mongoose");
-
+const Cloudinary = require("../helper/uplode-image");
 const Event = require("../Models/Event.model");
 
 module.exports = {
@@ -26,8 +26,11 @@ module.exports = {
 
   createNewEvent: async (req, res, next) => {
     try {
+      const Imageresult = await Cloudinary.uploader.upload(req.file.path, {
+        public_id: `${req.body.published_by}`,
+      });
       let post = new Event({
-        published_by: req.body.description,
+        published_by: req.body.published_by,
         needed: req.body.user_id,
         quantity_needed: req.body.quantity_needed,
         category_type: req.body.needed,
@@ -41,12 +44,13 @@ module.exports = {
         quantity_reward: req.body.quantity_reward,
         description: req.body.description,
         file: req.body.file,
-        image: req.file.path,
+        image: Imageresult.url,
         user_id: req.body.user_id,
       });
       const result = await post.save();
       res.status(200).json({
         message: "Event Added Successfully!",
+        event: post,
       });
     } catch (error) {
       console.log(error.message);

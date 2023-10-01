@@ -1,8 +1,11 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 const express = require("express");
 const mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 const multer = require("multer");
-require("dotenv").config();
 const app = express();
 app.use("/Images", express.static("Images"));
 const upload = multer();
@@ -102,6 +105,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(3000, "0.0.0.0", () => {
+app.listen(4000, "0.0.0.0", () => {
   console.log("connected at port " + 3000);
 });

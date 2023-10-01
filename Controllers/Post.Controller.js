@@ -67,7 +67,7 @@ module.exports = {
         needed: req.body.needed,
         code: req.body.code,
         zone: req.body.zone,
-        photo: req.file?.path,
+        photo: Imageresult.url,
       });
       const result = await post.save();
       res.status(200).json({

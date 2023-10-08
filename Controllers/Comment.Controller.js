@@ -101,7 +101,9 @@ module.exports = {
         });
 
         const commentsWithUserNames = comments.map(comment => ({
-            ...comment._doc, user_name: userLookup?.[comment.user_id]?.name,
+            ...comment._doc,
+            user_name: userLookup?.[comment.user_id]?.name,
+            user_gender: userLookup?.[comment.user_id]?.gender
         }));
 
         res.status(200).json({
@@ -183,7 +185,11 @@ module.exports = {
       if (!result) {
         throw createError(404, "Comment does not exist.");
       }
-      res.send(result);
+
+      res.status(200).json({
+        message: "Comment deleted successfully!",
+        comment: result,
+      });
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {

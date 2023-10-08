@@ -40,7 +40,7 @@ const TaskSchema = new Schema({
   },
   indoor_location: {
     type: String,
-    required: true,
+    required: false,
   },
   outdoor_location: {
     type: String,

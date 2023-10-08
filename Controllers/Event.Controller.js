@@ -30,22 +30,27 @@ module.exports = {
         public_id: `${req.body.published_by}`,
       });
       let post = new Event({
+        contact_name: req.body.contact_name,
+        indoor_location: req.body.indoor_location,
+        outdoor_location: req.body.outdoor_location,
         published_by: req.body.published_by,
-        needed: req.body.user_id,
+        needed: req.body.needed,
         quantity_needed: req.body.quantity_needed,
-        category_type: req.body.needed,
+        category_type: req.body.category_type,
+        task_type: req.body.task_type,
         lattiude: req.body.lattiude,
         longitude: req.body.longitude,
-        date_from: req.body.date_from,
-        date_to: req.body.date_to,
-        time_from: req.body.time_from,
-        time_to: req.body.time_to,
+        start_time: req.body.start_time,
+        end_time: req.body.end_time,
         reward: req.body.reward,
         quantity_reward: req.body.quantity_reward,
         description: req.body.description,
+        start_date: req.body.start_date,
+        end_date: req.body.end_date,
         file: req.body.file,
         image: Imageresult.url,
         user_id: req.body.user_id,
+        zone: req.body.zone,
       });
       const result = await post.save();
       res.status(200).json({

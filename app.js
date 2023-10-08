@@ -79,7 +79,7 @@ app.use("/products", upload.none(), ProductRoute);
 app.use("/tasks", upload1.single("image"), TaskRoute);
 app.use("/rewards", upload.none(), RewardRoute);
 app.use("/operation", upload.none(), OperationRoute);
-app.use("/activities", upload.none(), ActivityRoute);
+app.use("/activities", upload1.single("image"), ActivityRoute);
 app.use("/api/auth", upload.none(), UserRoute);
 app.use("/posts", upload1.single("photo"), PostRoute);
 app.use("/posts_items", upload1.single("photo"), PostItemsRoute);

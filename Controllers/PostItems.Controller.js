@@ -4,6 +4,7 @@ const Comment = require("../Models/Comment.model");
 const Post = require("../Models/PostItems.model");
 const User = require("../Models/User");
 const Like = require("../Models/Like.model");
+const Cloudinary = require("../helper/uplode-image");
 
 module.exports = {
   getAllPosts: async (req, res, next) => {
@@ -54,21 +55,24 @@ module.exports = {
   },
   createNewPost: async (req, res, next) => {
     try {
+      const Imageresult = await Cloudinary.uploader.upload(req.file.path, {
+        public_id: `${req.body.item}`,
+      });
       let post = new Post({
         item: req.body.item,
         description: req.body.description,
-        education: req.body.education,
         status: req.body.status,
-        working: req.body.working,
         user_id: req.body.user_id,
         category: req.body.category,
         name: req.body.name,
         telephone: req.body.telephone,
-        lattiude: req.body.lattiude,
-        longitude: req.body.longitude,
+        location: req.body.location,
+        zone: req.body.zone,
+        code: req.body.code,
         remark: req.body.remark,
-        photo: req.file.path,
+        photo: Imageresult.url,
       });
+
       const result = await post.save();
       res.status(200).json({
         message: "Post Added Successfully!",

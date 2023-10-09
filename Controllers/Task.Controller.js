@@ -1,6 +1,6 @@
 const createError = require("http-errors");
 const mongoose = require("mongoose");
-
+const Cloudinary = require("../helper/uplode-image");
 const Task = require("../Models/Task.model");
 
 module.exports = {
@@ -17,6 +17,9 @@ module.exports = {
 
   createNewTask: async (req, res, next) => {
     try {
+      const Imageresult = await Cloudinary.uploader.upload(req.file.path, {
+        public_id: `${req.body.contact_name}`,
+      });
       let product = new Task({
         contact_name: req.body.contact_name,
         contact_number: req.body.contact_number,
@@ -38,21 +41,16 @@ module.exports = {
         start_date: req.body.start_date,
         end_date: req.body.end_date,
         file: req.body.file,
+        image: Imageresult.url,
         user_id: req.body.user_id,
         zone: req.body.zone,
         time_added: new Date().getTime(),
       });
-      if (req.file) {
-        product.image = req.file.path;
-      }
       const result = await product.save();
       const serverBaseUrl = "https://together-backend-0070.onrender.com";
       res.send({
         message: "Task Added Successfully!",
-        Task: {
-          ...product._doc,
-          image: product.image ? `${serverBaseUrl}/${product.image}` : null,
-        },
+        task: product,
       });
     } catch (error) {
       console.log("error");

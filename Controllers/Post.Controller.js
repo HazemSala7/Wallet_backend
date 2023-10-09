@@ -4,6 +4,7 @@ const Comment = require("../Models/Comment.model");
 const Post = require("../Models/Post.model");
 const User = require("../Models/User");
 const Like = require("../Models/Like.model");
+const Cloudinary = require("../helper/uplode-image");
 
 module.exports = {
   getAllPosts: async (req, res, next) => {
@@ -56,7 +57,9 @@ module.exports = {
   // createNewPostMiddleware: upload.single("photo"), // Use upload middleware for file upload
   createNewPost: async (req, res, next) => {
     try {
-      // return req.file.path;
+      const Imageresult = await Cloudinary.uploader.upload(req.file.path, {
+        public_id: `${req.body.user_id}`,
+      });
       let post = new Post({
         description: req.body.description,
         user_id: req.body.user_id,
@@ -64,7 +67,7 @@ module.exports = {
         needed: req.body.needed,
         code: req.body.code,
         zone: req.body.zone,
-        photo: req.file?.path,
+        photo: Imageresult.url,
       });
       const result = await post.save();
       res.status(200).json({

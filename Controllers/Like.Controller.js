@@ -125,21 +125,30 @@ module.exports = {
   },
   findLikesByPostid: async (req, res, next) => {
     try {
-      const rewards = await Like.find(
-        { post_id: req.params.post_id },
-        { __v: 0 }
-      );
-      res.status(200).json({
-        likes: rewards,
+      const likes = await Like.find({ post_id: req.params.post_id }, { __v: 0 });
+      const userIds = likes.map(comment => comment.user_id);
+      const users = await User.find({ _id: { $in: userIds } });
+
+      const userLookup = {};
+      users.forEach(user => {
+          userLookup[user._id.toString()] = user;
       });
-    } catch (error) {
+
+      const likesWithUserNames = likes.map(comment => ({
+          ...comment._doc, user_name: userLookup?.[comment.user_id]?.name,
+      }));
+
+      res.status(200).json({
+          likes: likesWithUserNames,
+      });
+  } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
-        next(createError(400, "Invalid PostID"));
-        return;
+          next(createError(400, "Invalid PostID"));
+          return;
       }
       next(error);
-    }
+  }
   },
 
   deleteALike: async (req, res, next) => {

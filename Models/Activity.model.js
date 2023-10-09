@@ -8,15 +8,31 @@ const ActivitySchema = new Schema({
   },
   image: {
     type: String,
-    required: true,
+    required: false,
   },
   description: {
     type: String,
-    required: true,
+    required: false,
   },
-  lesson_type: {
+  published_by: {
     type: String,
     required: true,
+  },
+  needed: {
+    type: String,
+    required: true,
+  },
+  quantity_needed: {
+    type: String,
+    required: true,
+  },
+  indoor_location: {
+    type: String,
+    required: true,
+  },
+  outdoor_location: {
+    type: String,
+    required: false,
   },
   category_type: {
     type: String,
@@ -34,11 +50,19 @@ const ActivitySchema = new Schema({
     type: String,
     required: true,
   },
-  date: {
+  start_date: {
     type: String,
     required: true,
   },
-  time: {
+  end_date: {
+    type: String,
+    required: true,
+  },
+  start_time: {
+    type: String,
+    required: true,
+  },
+  end_time: {
     type: String,
     required: true,
   },
@@ -46,15 +70,19 @@ const ActivitySchema = new Schema({
     type: String,
     required: true,
   },
-  quantity: {
+  quantity_reward: {
     type: String,
     required: true,
   },
   file: {
     type: String,
-    required: true,
+    required: false,
   },
   user_id: {
+    type: String,
+    required: true,
+  },
+  zone: {
     type: String,
     required: true,
   },

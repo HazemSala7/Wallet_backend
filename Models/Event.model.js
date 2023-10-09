@@ -2,6 +2,18 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const EventSchema = new Schema({
+  contact_name: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: false,
+  },
+  description: {
+    type: String,
+    required: false,
+  },
   published_by: {
     type: String,
     required: true,
@@ -14,7 +26,19 @@ const EventSchema = new Schema({
     type: String,
     required: true,
   },
+  indoor_location: {
+    type: String,
+    required: true,
+  },
+  outdoor_location: {
+    type: String,
+    required: false,
+  },
   category_type: {
+    type: String,
+    required: true,
+  },
+  task_type: {
     type: String,
     required: true,
   },
@@ -26,19 +50,19 @@ const EventSchema = new Schema({
     type: String,
     required: true,
   },
-  date_from: {
-    type: Date,
-    required: true,
-  },
-  date_to: {
-    type: Date,
-    required: true,
-  },
-  time_from: {
+  start_date: {
     type: String,
     required: true,
   },
-  time_to: {
+  end_date: {
+    type: String,
+    required: true,
+  },
+  start_time: {
+    type: String,
+    required: true,
+  },
+  end_time: {
     type: String,
     required: true,
   },
@@ -50,19 +74,15 @@ const EventSchema = new Schema({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-    required: true,
-  },
   file: {
     type: String,
-    required: true,
+    required: false,
   },
-  image: {
+  user_id: {
     type: String,
     required: true,
   },
-  user_id: {
+  zone: {
     type: String,
     required: true,
   },

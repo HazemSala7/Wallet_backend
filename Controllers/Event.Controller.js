@@ -109,6 +109,21 @@ module.exports = {
       next(error);
     }
   },
+  findActivityByZone: async (req, res, next) => {
+    try {
+      const rewards = await Event.find({ zone: req.params.zone }, { __v: 0 });
+      res.status(200).json({
+        events: rewards,
+      });
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, "Invalid Activity Zone"));
+        return;
+      }
+      next(error);
+    }
+  },
 
   updateAEvent: async (req, res, next) => {
     try {

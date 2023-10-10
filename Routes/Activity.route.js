@@ -12,6 +12,9 @@ router.post("/", ActivityController.createNewActivity);
 //Get a product by id
 router.get("/:id", ActivityController.findActivityById);
 
+//Get a product by zone
+router.get("/zone/:zone", ActivityController.findActivityByZone);
+
 //Update a product by id
 router.patch("/:id", ActivityController.updateAActivity);
 

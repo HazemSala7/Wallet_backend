@@ -12,6 +12,9 @@ router.post("/", EventController.createNewEvent);
 //Get a product by id
 router.get("/:id", EventController.findEventById);
 
+//Get a product by zone
+router.get("/zone/:zone", EventController.findActivityByZone);
+
 //Update a product by id
 router.patch("/:id", EventController.updateAEvent);
 

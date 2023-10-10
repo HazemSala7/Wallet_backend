@@ -75,6 +75,7 @@ module.exports = {
         post: post,
       });
     } catch (error) {
+      console.error(error);
       if (error.name === "ValidationError") {
         res.status(404).json({
           message: error.message,

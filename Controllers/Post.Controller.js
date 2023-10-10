@@ -75,14 +75,19 @@ module.exports = {
         post: post,
       });
     } catch (error) {
-      console.error(error);
       if (error.name === "ValidationError") {
         res.status(404).json({
           message: error.message,
         });
         return;
       }
-      next(error);
+      res.status(500).json({
+        error: {
+          name: error.name,
+          message: error.message,
+        },
+      });
+      return;
     }
   },
   findPostByZone: async (req, res, next) => {

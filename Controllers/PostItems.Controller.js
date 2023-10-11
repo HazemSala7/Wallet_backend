@@ -55,7 +55,7 @@ module.exports = {
   },
   createNewPost: async (req, res, next) => {
     try {
-      const Imageresult = await Cloudinary.uploader.upload(req.file.path, {
+      const Imageresult = await Cloudinary.uploader.upload(req.file?.path, {
         public_id: `${req.body.item}`,
       });
       let post = new Post({
@@ -104,6 +104,22 @@ module.exports = {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
         next(createError(400, "Invalid Post id"));
+        return;
+      }
+      next(error);
+    }
+  },
+
+  findPostByZone: async (req, res, next) => {
+    try {
+      const rewards = await Post.find({ zone: req.params.zone }, { __v: 0 });
+      res.status(200).json({
+        posts: rewards,
+      });
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, "Invalid Post Zone"));
         return;
       }
       next(error);

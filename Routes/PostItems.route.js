@@ -18,4 +18,7 @@ router.patch("/:id", PostController.updateAPost);
 //Delete a product by id
 router.delete("/:id", PostController.deleteAPost);
 
+//Get a product by zone
+router.get("/zone/:zone", PostController.findPostByZone);
+
 module.exports = router;

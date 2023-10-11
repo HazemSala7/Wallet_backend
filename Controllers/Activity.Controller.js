@@ -42,6 +42,8 @@ module.exports = {
         image: Imageresult.url,
         user_id: req.body.user_id,
         zone: req.body.zone,
+        subtitle: req.body.subtitle,
+        time_added: new Date().getTime(),
       });
       const result = await product.save();
       res.status(200).json({
@@ -103,9 +105,7 @@ module.exports = {
       if (!product) {
         throw createError(404, "Activity does not exist.");
       }
-      res.status(200).json({
-        activity_details: product,
-      });
+      res.status(200).json(product);
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {

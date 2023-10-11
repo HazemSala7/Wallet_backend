@@ -86,6 +86,14 @@ const EventSchema = new Schema({
     type: String,
     required: true,
   },
+  subtitle: {
+    type: String,
+    required: true,
+  },
+  time_added: {
+    type: String,
+    required: true,
+  },
 });
 
 const Event = mongoose.model("event", EventSchema);

@@ -51,6 +51,8 @@ module.exports = {
         image: Imageresult.url,
         user_id: req.body.user_id,
         zone: req.body.zone,
+        subtitle: req.body.subtitle,
+        time_added: new Date().getTime(),
       });
       const result = await post.save();
       res.status(200).json({
@@ -95,9 +97,7 @@ module.exports = {
       if (!product) {
         throw createError(404, "Event does not exist.");
       }
-      res.status(200).json({
-        event_details: product,
-      });
+      res.status(200).json(product);
     } catch (error) {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {

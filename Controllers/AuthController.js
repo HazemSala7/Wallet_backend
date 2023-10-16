@@ -3,30 +3,45 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const register = (req, res, next) => {
-  // bcrypt.hash(req.body.password, 10, function (err, hashedPassword) {
-  //   if (err) {
-  //     res.json({
-  //       error: err,
-  //     });
-  //   }
-  // });
   const salt = bcrypt.genSaltSync(10);
-  let user = new User({
-    name: req.body.name,
-    email: req.body.email,
-    phone: req.body.phone,
-    gender: req.body.gender,
-    birthday: req.body.birthday,
-    vouchers: req.body.vouchers,
-    points: req.body.points,
-    credits: req.body.credits,
-    password: bcrypt.hashSync(req.body.password, salt),
+  const {
+    name,
+    email,
+    phone,
+    gender,
+    birthday,
+    vouchers,
+    points,
+    credits,
+    password,
+    role,
+  } = req.body;
+
+  // Check if the provided role is valid (either "user" or "admin")
+  if (role && role !== "user" && role !== "admin") {
+    return res.status(400).json({ message: "Invalid role" });
+  }
+
+  const hashedPassword = bcrypt.hashSync(password, salt);
+
+  const user = new User({
+    name,
+    email,
+    phone,
+    gender,
+    birthday,
+    vouchers,
+    points,
+    credits,
+    password: hashedPassword,
+    role,
   });
+
   user
     .save()
     .then((user) => {
       res.status(200).json({
-        message: "Request successful",
+        message: "Registration successful",
       });
     })
     .catch((error) => {

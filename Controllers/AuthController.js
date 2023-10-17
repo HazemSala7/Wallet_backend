@@ -200,6 +200,60 @@ const addFriendById = (req, res, next) => {
     });
 };
 
+const editUserById = (req, res, next) => {
+  const userId = req.params.id;
+  const {
+    name,
+    email,
+    phone,
+    gender,
+    birthday,
+    vouchers,
+    points,
+    credits,
+    role,
+  } = req.body;
+
+  User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({
+          message: "User not found",
+        });
+      }
+
+      // Update user information
+      user.name = name || user.name;
+      user.email = email || user.email;
+      user.phone = phone || user.phone;
+      user.gender = gender || user.gender;
+      user.birthday = birthday || user.birthday;
+      user.vouchers = vouchers || user.vouchers;
+      user.points = points || user.points;
+      user.credits = credits || user.credits;
+      user.role = role || user.role;
+
+      user
+        .save()
+        .then(() => {
+          res.status(200).json({
+            message: "User data updated successfully",
+            user: user,
+          });
+        })
+        .catch((error) => {
+          res.json({
+            error: error.message,
+          });
+        });
+    })
+    .catch((error) => {
+      res.json({
+        error: error.message,
+      });
+    });
+};
+
 const deleteUserById = (req, res, next) => {
   const userId = req.params.userId; // Assuming the user ID is provided as a route parameter
 
@@ -237,6 +291,7 @@ module.exports = {
   login,
   getAllUsers,
   addFriendById,
+  editUserById,
   deleteUserById,
   getUsersData,
   getUserById,

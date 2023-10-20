@@ -10,6 +10,7 @@ router.get("/current", AuthController.getCurrentUser);
 router.get("/:id", AuthController.getUserById);
 router.post("/add/:userId", AuthController.addFriendById);
 router.put("/:id", AuthController.editUserById);
+router.put("/activate/:id", AuthController.activateAccount);
 router.delete("/:userId", AuthController.deleteUserById);
 router.post("/users/data", AuthController.getUsersData);
 

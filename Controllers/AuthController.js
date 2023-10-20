@@ -15,11 +15,14 @@ const register = (req, res, next) => {
     credits,
     password,
     role,
+    status,
   } = req.body;
 
-  // Check if the provided role is valid (either "user" or "admin")
   if (role && role !== "user" && role !== "admin") {
-    return res.status(400).json({ message: "Invalid role" });
+    return res.status(400).json({ message: "Invalid user role" });
+  }
+  if (status && status !== "pending" && status !== "active") {
+    return res.status(400).json({ message: "Invalid user status" });
   }
 
   const hashedPassword = bcrypt.hashSync(password, salt);
@@ -35,6 +38,7 @@ const register = (req, res, next) => {
     credits,
     password: hashedPassword,
     role,
+    status,
   });
 
   user
@@ -42,6 +46,7 @@ const register = (req, res, next) => {
     .then((user) => {
       res.status(200).json({
         message: "Registration successful",
+        user: user,
       });
     })
     .catch((error) => {
@@ -286,6 +291,29 @@ const getUsersData = (req, res, next) => {
     });
 };
 
+const activateAccount = (req, res, next) => {
+  const userId = req.params.id;
+
+  User.findByIdAndUpdate(
+    userId,
+    { status: "active" },
+    { new: true },
+    (err, user) => {
+      if (err) {
+        return res.status(500).json({ error: "Internal server error" });
+      }
+
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Account activated successfully", user });
+    }
+  );
+};
+
 module.exports = {
   register,
   login,
@@ -296,4 +324,5 @@ module.exports = {
   getUsersData,
   getUserById,
   getCurrentUser,
+  activateAccount,
 };

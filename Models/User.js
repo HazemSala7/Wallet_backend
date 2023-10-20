@@ -40,18 +40,24 @@ const UserSchema = new Schema({
     type: Number,
     required: true,
   },
-  friends: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "user",
-    },
-  ],
   role: {
     type: String,
     enum: ["user", "admin"],
     default: "user",
     required: true,
   },
+  status: {
+    type: String,
+    enum: ["pending", "active"],
+    default: "active",
+    required: true,
+  },
+  friends: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
+  ],
 });
 
 const User = mongoose.model("user", UserSchema);

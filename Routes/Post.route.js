@@ -13,6 +13,9 @@ router.post("/", PostController.createNewPost);
 //Get a product by zone
 router.get("/zone/:zone", PostController.findPostByZone);
 
+//Get a product by type
+router.get("/zone/:zone/type/:type", PostController.findPostByZoneAndType);
+
 //Get a product by id
 router.get("/:id", PostController.findPostById);
 

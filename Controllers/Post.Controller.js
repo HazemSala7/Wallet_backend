@@ -66,6 +66,7 @@ module.exports = {
         category: req.body.category,
         needed: req.body.needed,
         code: req.body.code,
+        type: req.body.type,
         zone: req.body.zone,
         photo: Imageresult.url,
       });
@@ -87,9 +88,10 @@ module.exports = {
       return;
     }
   },
+
   findPostByZone: async (req, res, next) => {
     try {
-      const rewards = await Post.find({ zone: req.params.zone }, { __v: 0 });
+      const rewards = await Post.find({ zone: req.params.zone, type: undefined }, { __v: 0 });
       res.status(200).json({
         posts: rewards,
       });
@@ -118,6 +120,22 @@ module.exports = {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
         next(createError(400, "Invalid Post id"));
+        return;
+      }
+      next(error);
+    }
+  },
+
+  findPostByZoneAndType: async (req, res, next) => {
+    try {
+      const posts = await Post.find({ zone: req.params.zone, type: req.params.type }, { __v: 0 });
+      res.status(200).json({
+        posts: posts,
+      });
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, "Invalid post type"));
         return;
       }
       next(error);

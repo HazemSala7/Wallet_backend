@@ -71,6 +71,7 @@ module.exports = {
         code: req.body.code,
         remark: req.body.remark,
         photo: Imageresult.url,
+        type: req.body.type,
       });
 
       const result = await post.save();
@@ -112,7 +113,7 @@ module.exports = {
 
   findPostByZone: async (req, res, next) => {
     try {
-      const rewards = await Post.find({ zone: req.params.zone }, { __v: 0 });
+      const rewards = await Post.find({ zone: req.params.zone, type: undefined }, { __v: 0 });
       res.status(200).json({
         posts: rewards,
       });
@@ -120,6 +121,22 @@ module.exports = {
       console.log(error.message);
       if (error instanceof mongoose.CastError) {
         next(createError(400, "Invalid Post Zone"));
+        return;
+      }
+      next(error);
+    }
+  },
+
+  findPostByZoneAndType: async (req, res, next) => {
+    try {
+      const posts = await Post.find({ zone: req.params.zone, type: req.params.type }, { __v: 0 });
+      res.status(200).json({
+        posts: posts,
+      });
+    } catch (error) {
+      console.log(error.message);
+      if (error instanceof mongoose.CastError) {
+        next(createError(400, "Invalid post type"));
         return;
       }
       next(error);

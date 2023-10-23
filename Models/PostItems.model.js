@@ -52,6 +52,10 @@ const PostItemsSchema = new Schema(
       type: String,
       required: true,
     },
+    type: {
+      type: String,
+      required: false,
+    },
     // comments: [
     //   {
     //     type: Schema.Types.ObjectId,

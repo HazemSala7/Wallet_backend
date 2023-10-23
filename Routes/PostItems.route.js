@@ -21,4 +21,7 @@ router.delete("/:id", PostController.deleteAPost);
 //Get a product by zone
 router.get("/zone/:zone", PostController.findPostByZone);
 
+//Get a product by type
+router.get("/zone/:zone/type/:type", PostController.findPostByZoneAndType);
+
 module.exports = router;

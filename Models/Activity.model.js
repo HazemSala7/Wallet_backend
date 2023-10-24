@@ -6,6 +6,10 @@ const ActivitySchema = new Schema({
     type: String,
     required: true,
   },
+  contact_number: {
+    type: String,
+    required: true,
+  },
   image: {
     type: String,
     required: false,

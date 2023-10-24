@@ -20,6 +20,12 @@ const UserSchema = new Schema({
     default: "male",
     required: true,
   },
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+    required: true,
+  },
   birthday: {
     type: String,
     required: true,

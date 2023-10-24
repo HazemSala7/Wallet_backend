@@ -16,6 +16,7 @@ const register = (req, res, next) => {
     email: req.body.email,
     phone: req.body.phone,
     gender: req.body.gender,
+    role: req.body.role,
     birthday: req.body.birthday,
     vouchers: req.body.vouchers,
     points: req.body.points,

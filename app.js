@@ -73,6 +73,8 @@ const PostRoute = require("./Routes/Post.route");
 const PostItemsRoute = require("./Routes/PostItems.route");
 const CommentRoute = require("./Routes/Comment.route");
 const LikeRoute = require("./Routes/Like.route");
+const WaitingListRoute = require("./Routes/WaitingList.route");
+const RoleRoute = require("./Routes/Role.route");
 const EventRoute = require("./Routes/Event.route");
 const PostController = require("./Controllers/Post.Controller");
 app.use("/products", upload.none(), ProductRoute);
@@ -85,6 +87,8 @@ app.use("/posts", upload1.single("photo"), PostRoute);
 app.use("/posts_items", upload1.single("photo"), PostItemsRoute);
 app.use("/comments", upload.none(), CommentRoute);
 app.use("/likes", upload.none(), LikeRoute);
+app.use("/waiting_lists", upload.none(), WaitingListRoute);
+app.use("/roles", upload.none(), RoleRoute);
 app.use("/events", upload1.single("image"), EventRoute);
 
 // app.get("/products", (req, res, next) => {

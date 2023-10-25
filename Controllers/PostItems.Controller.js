@@ -55,9 +55,7 @@ module.exports = {
   },
   createNewPost: async (req, res, next) => {
     try {
-      const Imageresult = await Cloudinary.uploader.upload(req.file?.path, {
-        public_id: `${req.body.item}`,
-      });
+      const Imageresult = await Cloudinary.uploader.upload(req.file?.path);
       let post = new Post({
         item: req.body.item,
         description: req.body.description,

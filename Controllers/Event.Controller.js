@@ -26,9 +26,7 @@ module.exports = {
 
   createNewEvent: async (req, res, next) => {
     try {
-      const Imageresult = await Cloudinary.uploader.upload(req.file.path, {
-        public_id: `${req.body.published_by}`,
-      });
+      const Imageresult = await Cloudinary.uploader.upload(req.file.path);
       let post = new Event({
         contact_name: req.body.contact_name,
         contact_number: req.body.contact_number,

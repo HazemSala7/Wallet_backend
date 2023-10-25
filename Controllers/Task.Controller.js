@@ -17,9 +17,7 @@ module.exports = {
 
   createNewTask: async (req, res, next) => {
     try {
-      const Imageresult = await Cloudinary.uploader.upload(req.file.path, {
-        public_id: `${req.body.contact_name}`,
-      });
+      const Imageresult = await Cloudinary.uploader.upload(req.file.path);
       let product = new Task({
         contact_name: req.body.contact_name,
         contact_number: req.body.contact_number,

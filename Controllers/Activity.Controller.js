@@ -122,6 +122,10 @@ module.exports = {
       const id = req.params.id;
       const updates = req.body;
       const options = { new: true };
+      if (req.file) {
+        // Check if a new image file is provided in the request
+        updates.image = req.file.path;
+      }
 
       const result = await Activity.findByIdAndUpdate(id, updates, options);
       if (!result) {

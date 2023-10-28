@@ -57,7 +57,10 @@ module.exports = {
   // createNewPostMiddleware: upload.single("photo"), // Use upload middleware for file upload
   createNewPost: async (req, res, next) => {
     try {
-      const Imageresult = await Cloudinary.uploader.upload(req.file.path);
+      let Imageresult;
+      if (req.file?.path) {
+        Imageresult = await Cloudinary.uploader.upload(req.file.path);
+      }
       let post = new Post({
         description: req.body.description,
         user_id: req.body.user_id,
@@ -66,7 +69,7 @@ module.exports = {
         code: req.body.code,
         type: req.body.type,
         zone: req.body.zone,
-        photo: Imageresult.url,
+        ...(Imageresult && { photo: Imageresult.url })
       });
       const result = await post.save();
       res.status(200).json({

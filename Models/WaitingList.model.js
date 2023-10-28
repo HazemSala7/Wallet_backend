@@ -9,9 +9,29 @@ const WaitonglistSchema = new Schema(
     },
     type: {
       type: String,
+      enum: ["task", "event"],
+      default: "task",
+      required: true,
+    },
+    type_id: {
+      type: String,
+      required: true,
+    },
+    start_time: {
+      type: String,
+      required: true,
+    },
+    end_time: {
+      type: String,
       required: true,
     },
     status: {
+      type: String,
+      enum: ["aceept", "reject", "pending"],
+      default: "pending",
+      required: true,
+    },
+    paused: {
       type: String,
       enum: ["true", "false"],
       default: "false",

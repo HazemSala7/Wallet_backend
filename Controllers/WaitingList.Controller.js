@@ -19,6 +19,7 @@ module.exports = {
       // Create a new Post document and set the post_id to the User's _id
       let waitinglist = new WaitingList({
         status: req.body.status,
+        type_id: req.body.type_id,
         user_id: req.body.user_id,
         type: req.body.type,
       });
@@ -57,6 +58,33 @@ module.exports = {
     */
   },
 
+  findWaitingListsByTaskID: async (req, res, next) => {
+    try {
+      const waiting_lists = await WaitingList.find(
+        { status: "pending", type: "task", type_id: req.params.task_id },
+        { __v: 0 }
+      );
+      res.status(200).json({
+        waiting_lists: waiting_lists,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+  findWaitingListsByEventID: async (req, res, next) => {
+    try {
+      const waiting_lists = await WaitingList.find(
+        { status: "pending", type: "event", type_id: req.params.event_id },
+        { __v: 0 }
+      );
+      res.status(200).json({
+        waiting_lists: waiting_lists,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+
   findWaitingListById: async (req, res, next) => {
     const id = req.params.id;
     try {
@@ -78,7 +106,7 @@ module.exports = {
     }
   },
 
-  updateALike: async (req, res, next) => {
+  updateAWaitingList: async (req, res, next) => {
     try {
       const id = req.params.id;
       const updates = req.body;
@@ -89,6 +117,7 @@ module.exports = {
         throw createError(404, "WaitingList does not exist");
       }
       res.status(200).json({
+        message: "WaitingList Edited Successfully!",
         waiting_list_details: result,
       });
     } catch (error) {

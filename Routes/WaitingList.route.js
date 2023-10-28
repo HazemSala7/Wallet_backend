@@ -12,8 +12,17 @@ router.post("/", WaitingListController.createNewWaitingList);
 //Get a product by id
 router.get("/:id", WaitingListController.findWaitingListById);
 
+//Get a product by id
+router.get("/by_task/:task_id", WaitingListController.findWaitingListsByTaskID);
+
+//Get a product by id
+router.get(
+  "/by_event/:event_id",
+  WaitingListController.findWaitingListsByEventID
+);
+
 //Update a product by id
-router.patch("/:id", WaitingListController.updateALike);
+router.patch("/:id", WaitingListController.updateAWaitingList);
 
 //Delete a product by id
 // router.delete("/", WaitingListController.deleteALike);

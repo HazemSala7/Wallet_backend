@@ -2,6 +2,7 @@ const createError = require("http-errors");
 const mongoose = require("mongoose");
 const Cloudinary = require("../helper/uplode-image");
 const Task = require("../Models/Task.model");
+const WaitingList = require("../Models/WaitingList.model");
 
 module.exports = {
   getAllTasks: async (req, res, next) => {
@@ -44,6 +45,16 @@ module.exports = {
         zone: req.body.zone,
       });
       const result = await product.save();
+      let waitinglist = new WaitingList({
+        status: req.body.status,
+        type_id: product._id,
+        user_id: req.body.user_id,
+        type: "task",
+        start_time: req.body.start_time,
+        end_time: req.body.end_time,
+        paused: "false",
+      });
+      await waitinglist.save();
       const serverBaseUrl = "https://together-backend-0070.onrender.com";
       res.send({
         message: "Task Added Successfully!",

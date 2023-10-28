@@ -2,6 +2,7 @@ const createError = require("http-errors");
 const mongoose = require("mongoose");
 const Cloudinary = require("../helper/uplode-image");
 const Event = require("../Models/Event.model");
+const WaitingList = require("../Models/WaitingList.model");
 
 module.exports = {
   getAllEvents: async (req, res, next) => {
@@ -53,6 +54,16 @@ module.exports = {
         zone: req.body.zone,
       });
       const result = await post.save();
+      let waitinglist = new WaitingList({
+        status: req.body.status,
+        type_id: post._id,
+        user_id: req.body.user_id,
+        type: "event",
+        start_time: req.body.start_time,
+        end_time: req.body.end_time,
+        paused: "false",
+      });
+      await waitinglist.save();
       res.status(200).json({
         message: "Event Added Successfully!",
         event: post,

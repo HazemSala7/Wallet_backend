@@ -11,7 +11,6 @@ app.use("/Images", express.static("Images"));
 const upload = multer();
 
 const cors = require("cors");
-const url = process.env.MONGO_DB_URL;
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -24,8 +23,7 @@ const storage = multer.diskStorage({
 
 var upload1 = multer({ storage: storage });
 
-const domainsFromEnv =
-  "http://localhost:3000, https://www.student-ecosystem.com , https://together-backend-0070.onrender.com , https://together-wallet.onrender.com ,https://together-ecosystem.com";
+const domainsFromEnv = process.env.DOMAINS_FROM_ENV;
 const whitelist = domainsFromEnv.split(",").map((item) => item.trim());
 const corsOptions = {
   origin: function (origin, callback) {
@@ -42,14 +40,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 mongoose
-  .connect(
-    "mongodb+srv://hazemsala7:B0346AsECQ4YxuGn@cluster0.bttmeup.mongodb.net/",
-    {
-      dbName: "wallet",
-      user: "hazemsala7",
-      pass: "B0346AsECQ4YxuGn",
-    }
-  )
+  .connect(process.env.MONGODB_URL, {
+    dbName: process.env.MONGODB_DB_NAME,
+    user: process.env.MONGODB_USER,
+    pass: process.env.MONGODB_PASS,
+  })
   .then(() => {
     console.log("connected DATABASE");
   });

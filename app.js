@@ -65,6 +65,7 @@ app.get("/", (req, res) => {
 
 const ProductRoute = require("./Routes/Product.route");
 const TaskRoute = require("./Routes/Task.route");
+const InviteRoute = require("./Routes/Invite.route");
 const RewardRoute = require("./Routes/Reward.route");
 const OperationRoute = require("./Routes/Operation.route");
 const ActivityRoute = require("./Routes/Activity.route");
@@ -80,6 +81,7 @@ const PostController = require("./Controllers/Post.Controller");
 app.use("/products", upload.none(), ProductRoute);
 app.use("/tasks", upload1.single("image"), TaskRoute);
 app.use("/rewards", upload.none(), RewardRoute);
+app.use("/invites", upload.none(), InviteRoute);
 app.use("/operation", upload.none(), OperationRoute);
 app.use("/activities", upload1.single("image"), ActivityRoute);
 app.use("/api/auth", upload.none(), UserRoute);
